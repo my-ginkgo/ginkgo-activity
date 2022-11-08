@@ -14,7 +14,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"lib/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "lint:fix": "tslint -p tsconfig.json --fix",
-    "release": "npm run format && npm run lint:fix && npm version patch && npm run build && npm publish"
+    "release": "npm version patch  && npm run build && npm publish"
   },
   "repository": {
     "type": "git",
