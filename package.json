@@ -1,6 +1,6 @@
 {
   "name": "@my-ginkgo/ginkgo-metrics-lib",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": false,
   "description": "TS Library for metrics generation for Ginkgo.",
   "main": "lib/index.js",
