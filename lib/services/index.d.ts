@@ -1,10 +1,10 @@
-export declare const GPSMetrics: {
-    calcAll: (blocks: import("../models").ActivityBlocks, settings: import("../models").ActivitySettings) => Partial<import("../models").GpsMetrics>;
-    calcValues: (blocks: import("../models").ActivityBlocks) => Pick<import("../models").GpsMetrics, "altitudeMin" | "altitudeMax" | "totalDistance" | "speedMax" | "speedMin" | "totalTime" | "avgSpeed" | "avgAltitude">;
-    calcRanges: (blocks: import("../models").ActivityBlocks, settings: import("../models").ActivitySettings) => Partial<import("../models").GpsMetrics>;
+export declare const GPS: {
+    calcAll: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings) => Partial<import("..").GpsMetrics>;
+    calcValues: (blocks: import("..").ActivityBlocks) => Pick<import("..").GpsMetrics, "altitudeMin" | "altitudeMax" | "totalDistance" | "speedMax" | "speedMin" | "totalTime" | "avgSpeed" | "avgAltitude">;
+    calcRanges: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings) => Partial<import("..").GpsMetrics>;
 };
-export declare const HRMetrics: {
-    calcAll: (blocks: import("../models").ActivityBlocks, settings: import("../models").ActivitySettings) => Partial<import("../models").HeartMetrics>;
-    calcValues: (blocks: import("../models").ActivityBlocks) => Pick<import("../models").HeartMetrics, "hrMax" | "hrMin" | "avgHr">;
-    calcRanges: (blocks: import("../models").ActivityBlocks, settings: import("../models").ActivitySettings) => Pick<import("../models").HeartMetrics, "heartRanges">;
+export declare const HR: {
+    calcAll: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings) => Partial<import("..").HeartMetrics>;
+    calcValues: (blocks: import("..").ActivityBlocks) => Pick<import("..").HeartMetrics, "hrMax" | "hrMin" | "avgHr">;
+    calcRanges: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings) => Pick<import("..").HeartMetrics, "heartRanges">;
 };
