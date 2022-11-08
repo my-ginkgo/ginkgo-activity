@@ -1,6 +1,6 @@
 {
   "name": "@my-ginkgo/ginkgo-metrics-lib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "TS Library for metrics generation for Ginkgo.",
   "main": "lib/index.js",
@@ -11,10 +11,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"lib/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "lint:fix": "tslint -p tsconfig.json --fix",
-    "release": "npm run format && npm run lint:fix && npm version --patch && npm run build"
+    "release": "npm version patch && npm run build && npm publish"
   },
   "repository": {
     "type": "git",

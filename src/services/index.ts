@@ -3,4 +3,4 @@ import heartMetrics from './heart-metrics.service';
 
 export const GPSMetrics = gpsMetrics;
 
-export const HeartMetrics = heartMetrics;
+export const HRMetrics = heartMetrics;
