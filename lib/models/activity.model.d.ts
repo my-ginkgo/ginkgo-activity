@@ -197,17 +197,18 @@ export declare interface HeartMetrics {
     hrMax: number;
     heartRanges: KeyValue<string, number>[];
 }
+export declare interface MetabolicMetrics {
+    idealWeight: number;
+    calorieRequirement: number;
+    basalMetabolism: number;
+    calorieConsumptionHr: number;
+    calorieConsumptionSpecific: number;
+    power: number;
+}
 export declare interface ActivityMetrics {
     heart: HeartMetrics;
     gps: GpsMetrics;
-    advanced: {
-        idealWeight: number;
-        calorieRequirement: number;
-        basalMetabolism: number;
-        calorieConsumptionHr: number;
-        calorieConsumptionSpecific: number;
-        power: number;
-    };
+    metabolic: MetabolicMetrics;
 }
 export declare interface GeoPositionBlock {
     lat: number;
