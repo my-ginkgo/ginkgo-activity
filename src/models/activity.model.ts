@@ -225,12 +225,12 @@ export declare interface MetabolicMetrics {
   calorieConsumptionHr: number;
   calorieConsumptionSpecific: number;
   power: number;
-};
+}
 
 export declare interface ActivityMetrics {
   heart: HeartMetrics;
   gps: GpsMetrics;
-  metabolic: MetabolicMetrics
+  metabolic: MetabolicMetrics;
 }
 
 export declare interface GeoPositionBlock {
