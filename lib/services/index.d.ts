@@ -8,3 +8,6 @@ export declare const HR: {
     calcValues: (blocks: import("..").ActivityBlocks) => Pick<import("..").HeartMetrics, "hrMax" | "hrMin" | "avgHr">;
     calcRanges: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings) => Pick<import("..").HeartMetrics, "heartRanges">;
 };
+export declare const MP: {
+    calcAll: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings, userInfo: import("..").ActivityUserInfo, metrics: import("..").ActivityMetrics, type: import("..").ActivityType) => import("..").MetabolicMetrics;
+};
