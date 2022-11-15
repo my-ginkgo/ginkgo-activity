@@ -1,4 +1,4 @@
-![logo-full.png](src/assets/images/logo-full.png)
+![logo-full.png](https://app-ginkgo.web.app/assets/images/logo-full.png)
 
 Progetto indipendente che si pone l’obbiettivo di creare uno strumento dinamico che semplifichi la raccolta, la
 manipolazione, l’analisi e la visualizzazione, anche in modalità live, dei dati raccolti da dispositivi di differente
