@@ -278,6 +278,7 @@ export declare const INITGEOPOSITIONBLOCK: {
     altitudeAccuracy: number;
     time: number;
     device: null;
+    exclude: boolean;
 };
 export declare const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_EBIKE_GEO_SETTINGS: ActivityGeoPositionSettings;
