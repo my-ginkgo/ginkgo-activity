@@ -14,22 +14,35 @@
     "format": "prettier --write \"src/**/*.ts\" \"lib/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "lint:fix": "tslint -p tsconfig.json --fix",
-    "release": "npm version patch && npm run build && npm publish && git push"
+    "release": "npm version patch && npm run build && npm publish"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/my-ginkgo/ginkgo-metrics-lib.git"
   },
-  "keywords": [
-    "metricsai",
-    "ginkgo"
-  ],
-  "author": "myGinkgo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/my-ginkgo/ginkgo-metrics-lib/issues"
   },
-  "homepage": "https://github.com/my-ginkgo/ginkgo-metrics-lib#readme",
+  "author": {
+    "name": "myGinkgo",
+    "email": "hello@myginkgo.tech",
+    "url": "https://myginkgo.tech/"
+  },
+  "homepage": "https://myginkgo.tech/",
+  "keywords": [
+    "analytics",
+    "sport",
+    "data sience",
+    "performance",
+    "live tracking"
+  ],
+  "funding": [
+    {
+      "type": "liberapay",
+      "url": "https://liberapay.com/MyGinkgo/donate"
+    }
+  ],
   "devDependencies": {
     "@types/leaflet": "^1.9.0",
     "prettier": "^2.7.1",
