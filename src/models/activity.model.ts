@@ -308,7 +308,9 @@ export const INITGEOPOSITIONBLOCK = {
   altitudeAccuracy: 0,
   time: 0,
   device: null,
+  exclude: false
 };
+
 
 export const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings = {
   altitudeAccuracyRange: [
