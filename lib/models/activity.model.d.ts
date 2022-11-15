@@ -155,6 +155,7 @@ export declare interface Cut {
     updatedAt: Date;
     start: number;
     end: number;
+    blocksType: 'gps' | 'heart'[];
 }
 export declare interface ActivityBlocks {
     geoPositionBlocks: GeoPositionBlock[];
@@ -173,6 +174,7 @@ export declare interface HeartBlock {
     heartRange: string;
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
 }
 export declare interface GpsMetrics {
     avgAltitude: number;
@@ -224,6 +226,7 @@ export declare interface GeoPositionBlock {
     heading: number;
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
 }
 export declare interface ActivitySettings {
     heart: ActivityHeartSettings;
