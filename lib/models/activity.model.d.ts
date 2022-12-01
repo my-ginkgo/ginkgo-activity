@@ -1,4 +1,5 @@
 import { KeyValue } from './ng-keyvalue.model';
+import { Media } from './media.model';
 export declare interface IDevice {
     deviceId: string;
     name: string;
@@ -110,33 +111,6 @@ export declare interface Activity {
     status: ActivityStatus;
     cuts?: Cut[];
     userInfo: ActivityUserInfo;
-}
-export declare interface ActivityMediaPosition {
-    lat: number;
-    long: number;
-    altitude: number;
-}
-export declare interface ActivityMedia {
-    name: string;
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    url: string;
-    base64: string;
-    extension: string;
-    memoryByteSize: number;
-    lensModel: string;
-    width: number;
-    height: number;
-    position: ActivityMediaPosition;
-    performance?: boolean;
-}
-export declare interface Media {
-    id: string;
-    fileName: string;
-    url: string;
-    position: ActivityMediaPosition;
-    performance?: boolean;
 }
 export declare interface Drill {
     name: string;
