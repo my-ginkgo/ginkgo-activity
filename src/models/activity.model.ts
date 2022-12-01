@@ -1,4 +1,5 @@
 import { KeyValue } from './ng-keyvalue.model';
+import { Media } from './media.model';
 
 export declare interface IDevice {
   deviceId: string;
@@ -123,36 +124,6 @@ export declare interface Activity {
   userInfo: ActivityUserInfo;
 }
 
-export declare interface ActivityMediaPosition {
-  lat: number;
-  long: number;
-  altitude: number;
-}
-
-export declare interface ActivityMedia {
-  name: string;
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  url: string;
-  base64: string;
-  extension: string;
-  memoryByteSize: number;
-  lensModel: string;
-  width: number;
-  height: number;
-  position: ActivityMediaPosition;
-  performance?: boolean;
-}
-
-export declare interface Media {
-  id: string;
-  fileName: string;
-  url: string;
-  position: ActivityMediaPosition;
-  performance?: boolean;
-}
-
 export declare interface Drill {
   name: string;
   id: string;
@@ -171,7 +142,7 @@ export declare interface Cut {
   updatedAt: Date;
   start: number;
   end: number;
-  blocksType: 'gps'| 'heart'[]
+  blocksType: 'gps' | 'heart'[];
 }
 
 export declare interface ActivityBlocks {
@@ -308,9 +279,8 @@ export const INITGEOPOSITIONBLOCK = {
   altitudeAccuracy: 0,
   time: 0,
   device: null,
-  exclude: false
+  exclude: false,
 };
-
 
 export const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings = {
   altitudeAccuracyRange: [
