@@ -118,7 +118,7 @@ export declare interface Activity {
   istants: ActivityIstants;
   devices: IDevice[];
   drills?: Drill[];
-  medias?: Media[];
+  media?: Media[];
   status: ActivityStatus;
   cuts?: Cut[];
   userInfo: ActivityUserInfo;
