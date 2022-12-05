@@ -18,4 +18,5 @@ export declare interface Media {
   updatedAt: Date;
   createdAt: Date;
   performance?: boolean;
+  visionAI?: any;
 }
