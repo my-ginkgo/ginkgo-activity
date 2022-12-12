@@ -7,6 +7,7 @@ export declare interface Media {
     id: string;
     name: string;
     fileName: string;
+    isLocal: boolean;
     src: string;
     position: MediaPosition;
     extension: string;

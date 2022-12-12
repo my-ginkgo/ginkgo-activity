@@ -1,12 +1,12 @@
-import { KeyValue } from './ng-keyvalue.model';
 import { Media } from './media.model';
+import { KeyValue } from './ng-keyvalue.model';
 export declare interface IDevice {
     deviceId: string;
     name: string;
     services: any[];
     connected: boolean;
     type: DeviceTypeEnum;
-    info: DeviceInfo;
+    info: DeviceInfo | null;
     batteryLevel: number;
 }
 export declare interface DeviceInfo {
@@ -100,8 +100,8 @@ export declare interface Activity {
     type: ActivityType;
     blocks: ActivityBlocks;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     metrics: ActivityMetrics;
     settings: ActivitySettings;
     istants: ActivityIstants;
@@ -110,7 +110,7 @@ export declare interface Activity {
     media?: Media[];
     status: ActivityStatus;
     cuts?: Cut[];
-    userInfo: ActivityUserInfo;
+    userInfo: ActivityUserInfo | null;
 }
 export declare interface Drill {
     name: string;
@@ -135,6 +135,8 @@ export declare interface ActivityBlocks {
     geoPositionBlocks: GeoPositionBlock[];
     heartBlocks: HeartBlock[];
     weatherBlocks: WeatherBlock[];
+    gyroscopeBlocks: GyroscopeBlock[];
+    accelerationBlocks: AccellerationBlock[];
 }
 export declare interface ActivityIstants {
     heartBlocksCount: number;
@@ -150,13 +152,29 @@ export declare interface HeartBlock {
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
 }
+export declare interface GyroscopeBlock {
+    x: number;
+    y: number;
+    z: number;
+    time: number;
+    device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
+}
+export declare interface AccellerationBlock {
+    x: number;
+    y: number;
+    z: number;
+    time: number;
+    device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
+}
 export declare interface GpsMetrics {
     avgAltitude: number;
     avgSpeed: number;
-    speedMin: number;
-    speedMax: number;
-    altitudeMin: number;
-    altitudeMax: number;
+    speedMin: number | null;
+    speedMax: number | null;
+    altitudeMin: number | null;
+    altitudeMax: number | null;
     downhill: number;
     uphill: number;
     totalDistance: number;
@@ -168,9 +186,9 @@ export declare interface GpsMetrics {
     altitudeDistanceRanges: KeyValue<string, number>[];
 }
 export declare interface HeartMetrics {
-    avgHr: number;
-    hrMin: number;
-    hrMax: number;
+    avgHr: number | null;
+    hrMin: number | null;
+    hrMax: number | null;
     heartRanges: KeyValue<string, number>[];
 }
 export declare interface MetabolicMetrics {
@@ -189,10 +207,12 @@ export declare interface ActivityMetrics {
 export declare interface GeoPositionBlock {
     lat: number;
     long: number;
-    accuracy: number;
+    accuracy: number | null;
     altitude: number;
-    altitudeAccuracy: number;
+    altitudeAccuracy: number | null;
     speed: number;
+    speed3d: number | null;
+    cts: number | null;
     speedRange: string;
     altitudeRange: string;
     accuracyRange: string;
