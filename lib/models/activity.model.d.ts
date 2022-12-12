@@ -265,6 +265,8 @@ export declare const INITGEOPOSITIONBLOCK: {
     altitudeRange: string;
     altitudeAccuracyRange: string;
     accuracyRange: string;
+    speed3d: number;
+    cts: number;
     long: number;
     lat: number;
     accuracy: number;
