@@ -131,7 +131,7 @@ export const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: str
     newActivity.devices = [{
         name: content.data?.deviceName ? content.data.deviceName : 'No name',
         deviceId: devideID,
-        type: content.data?.deviceName.toLowerCase().includes('gopro') ? DeviceTypeEnum.gopro : DeviceTypeEnum.unknown,
+        type: content.data?.deviceName?.toLowerCase().includes('gopro') ? DeviceTypeEnum.gopro : DeviceTypeEnum.unknown,
         services: [],
         batteryLevel: 100,
         connected: false,
@@ -215,7 +215,7 @@ export const normilizeTelemetryJSON = (message: string): { data: TelemetryExport
     const content = message
         .replace('"1":', '"data":')
         .replace('frames/second', 'fps')
-        .replace('device name:', 'deviceName');
+        .replace('"device name":', '"deviceName":');
     const res: { data: TelemetryExport; fps: string } = JSON.parse(content);
     return res;
 };
