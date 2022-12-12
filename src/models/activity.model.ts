@@ -295,6 +295,8 @@ export const INITGEOPOSITIONBLOCK = {
     altitudeRange: '',
     altitudeAccuracyRange: '',
     accuracyRange: '',
+    speed3d: 0,
+    cts: 0,
     long: 0,
     lat: 0,
     accuracy: 0,
