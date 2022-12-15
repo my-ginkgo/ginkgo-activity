@@ -38,10 +38,10 @@ export const calcAll = (
   metabolicMetrics.power = 0;
   metabolicMetrics.calorieConsumptionHr =
     metrics.heart?.avgHr ?? userInfo.gender.toLowerCase() === 'male'
-      ? ((-55.0969 + 0.6309 * metrics.heart.avgHr + 0.1988 * userInfo.weight + 0.2017 * userInfo.age) / 4.184) *
+      ? ((-55.0969 + 0.6309 * (metrics.heart?.avgHr as number) + 0.1988 * userInfo.weight + 0.2017 * userInfo.age) / 4.184) *
         60 *
         metrics.gps.totalTime
-      : ((-20.4022 + 0.4472 * metrics.heart.avgHr - 0.1263 * userInfo.weight + 0.074 * userInfo.age) / 4.184) *
+      : ((-20.4022 + 0.4472 * (metrics.heart.avgHr as number) - 0.1263 * userInfo.weight + 0.074 * userInfo.age) / 4.184) *
         60 *
         metrics.gps.totalTime;
   metabolicMetrics.calorieConsumptionSpecific = calcCalorieConumptionSpecific(

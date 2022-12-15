@@ -1,3 +1,4 @@
+import { Media } from './media.model';
 import { KeyValue } from './ng-keyvalue.model';
 export declare interface IDevice {
     deviceId: string;
@@ -5,7 +6,7 @@ export declare interface IDevice {
     services: any[];
     connected: boolean;
     type: DeviceTypeEnum;
-    info: DeviceInfo;
+    info: DeviceInfo | null;
     batteryLevel: number;
 }
 export declare interface DeviceInfo {
@@ -99,44 +100,17 @@ export declare interface Activity {
     type: ActivityType;
     blocks: ActivityBlocks;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     metrics: ActivityMetrics;
     settings: ActivitySettings;
     istants: ActivityIstants;
     devices: IDevice[];
     drills?: Drill[];
-    medias?: Media[];
+    media?: Media[];
     status: ActivityStatus;
     cuts?: Cut[];
-    userInfo: ActivityUserInfo;
-}
-export declare interface ActivityMediaPosition {
-    lat: number;
-    long: number;
-    altitude: number;
-}
-export declare interface ActivityMedia {
-    name: string;
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    url: string;
-    base64: string;
-    extension: string;
-    memoryByteSize: number;
-    lensModel: string;
-    width: number;
-    height: number;
-    position: ActivityMediaPosition;
-    performance?: boolean;
-}
-export declare interface Media {
-    id: string;
-    fileName: string;
-    url: string;
-    position: ActivityMediaPosition;
-    performance?: boolean;
+    userInfo: ActivityUserInfo | null;
 }
 export declare interface Drill {
     name: string;
@@ -161,6 +135,8 @@ export declare interface ActivityBlocks {
     geoPositionBlocks: GeoPositionBlock[];
     heartBlocks: HeartBlock[];
     weatherBlocks: WeatherBlock[];
+    gyroscopeBlocks: GyroscopeBlock[];
+    accelerationBlocks: AccellerationBlock[];
 }
 export declare interface ActivityIstants {
     heartBlocksCount: number;
@@ -176,13 +152,29 @@ export declare interface HeartBlock {
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
 }
+export declare interface GyroscopeBlock {
+    x: number;
+    y: number;
+    z: number;
+    time: number;
+    device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
+}
+export declare interface AccellerationBlock {
+    x: number;
+    y: number;
+    z: number;
+    time: number;
+    device: Pick<IDevice, 'deviceId' | 'type'> | null;
+    exclude: boolean;
+}
 export declare interface GpsMetrics {
     avgAltitude: number;
     avgSpeed: number;
-    speedMin: number;
-    speedMax: number;
-    altitudeMin: number;
-    altitudeMax: number;
+    speedMin: number | null;
+    speedMax: number | null;
+    altitudeMin: number | null;
+    altitudeMax: number | null;
     downhill: number;
     uphill: number;
     totalDistance: number;
@@ -194,9 +186,9 @@ export declare interface GpsMetrics {
     altitudeDistanceRanges: KeyValue<string, number>[];
 }
 export declare interface HeartMetrics {
-    avgHr: number;
-    hrMin: number;
-    hrMax: number;
+    avgHr: number | null;
+    hrMin: number | null;
+    hrMax: number | null;
     heartRanges: KeyValue<string, number>[];
 }
 export declare interface MetabolicMetrics {
@@ -215,10 +207,12 @@ export declare interface ActivityMetrics {
 export declare interface GeoPositionBlock {
     lat: number;
     long: number;
-    accuracy: number;
+    accuracy: number | null;
     altitude: number;
-    altitudeAccuracy: number;
+    altitudeAccuracy: number | null;
     speed: number;
+    speed3d: number | null;
+    cts: number | null;
     speedRange: string;
     altitudeRange: string;
     accuracyRange: string;
@@ -271,6 +265,8 @@ export declare const INITGEOPOSITIONBLOCK: {
     altitudeRange: string;
     altitudeAccuracyRange: string;
     accuracyRange: string;
+    speed3d: number;
+    cts: number;
     long: number;
     lat: number;
     accuracy: number;
@@ -278,6 +274,7 @@ export declare const INITGEOPOSITIONBLOCK: {
     altitudeAccuracy: number;
     time: number;
     device: null;
+    exclude: boolean;
 };
 export declare const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_EBIKE_GEO_SETTINGS: ActivityGeoPositionSettings;
