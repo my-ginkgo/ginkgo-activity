@@ -1,4 +1,5 @@
 export declare interface MediaPosition {
+    date: number;
     lat: number;
     long: number;
     altitude: number;
