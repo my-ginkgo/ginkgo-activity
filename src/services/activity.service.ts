@@ -138,6 +138,7 @@ export const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: str
         info: null,
     }];
     // BLOCKS
+    console.warn('STRAMS FIND', content.data.streams);
     content.data.streams.GPS5.samples.forEach(gpsData => {
         const normalizedBlock: GeoPositionBlock = {
             time: new Date(gpsData.date).valueOf(),
