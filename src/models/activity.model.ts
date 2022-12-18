@@ -120,10 +120,14 @@ export declare interface Activity {
     drills?: Drill[];
     media?: Media[];
     status: ActivityStatus;
+    provider: ActivityProvider;
     cuts?: Cut[];
     userInfo: ActivityUserInfo | null;
 }
-
+export enum ActivityProvider {
+    ginkgo = 'Ginkgo',
+    strava = 'Strava'
+}
 export declare interface Drill {
     name: string;
     id: string;

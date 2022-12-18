@@ -1,5 +1,6 @@
 import {
     Activity,
+    ActivityProvider,
     ActivitySettings,
     ActivityStatus,
     ActivityType,
@@ -80,6 +81,7 @@ export const initNewActivity = (type: ActivityType, name: string): Activity => {
         name,
         type,
         updatedAt: null,
+        provider: ActivityProvider.ginkgo
     };
 };
 
