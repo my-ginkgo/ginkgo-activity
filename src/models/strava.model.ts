@@ -1,6 +1,3 @@
-
-
-
 export interface Segment {
     id: number;
     resource_state: number;
@@ -103,6 +100,8 @@ export interface StatsVisibility {
 }
 
 export interface StravaActivity {
+    id: string;
+    detailsUploaded: boolean;
     resource_state: number;
     athlete: StravaActivityAthlete;
     name: string;
@@ -112,7 +111,8 @@ export interface StravaActivity {
     total_elevation_gain: number;
     type: string;
     sport_type: string;
-    id: number;
+    workout_type?: number;
+    stravaId: number;
     start_date: Date;
     start_date_local: Date;
     timezone: string;
@@ -137,63 +137,12 @@ export interface StravaActivity {
     end_latlng: number[];
     average_speed: number;
     max_speed: number;
-    average_watts: number;
-    kilojoules: number;
+    average_watts?: number;
+    kilojoules?: number;
     device_watts: boolean;
     has_heartrate: boolean;
-    average_heartrate: number;
-    max_heartrate: number;
-    heartrate_opt_out: boolean;
-    display_hide_heartrate_option: boolean;
-    elev_high: number;
-    elev_low: number;
-    upload_id: number;
-    upload_id_str: string;
-    external_id: string;
-    from_accepted_tag: boolean;
-    pr_count: number;
-    total_photo_count: number;
-    has_kudoed: boolean;
-}
-
-export interface StravaActivityDetails {
-    resource_state: number;
-    athlete: Athlete;
-    name: string;
-    distance: number;
-    moving_time: number;
-    elapsed_time: number;
-    total_elevation_gain: number;
-    type: string;
-    sport_type: string;
-    workout_type: number;
-    id: number;
-    start_date: Date;
-    start_date_local: Date;
-    timezone: string;
-    utc_offset: number;
-    location_city?: any;
-    location_state?: any;
-    location_country?: any;
-    achievement_count: number;
-    kudos_count: number;
-    comment_count: number;
-    athlete_count: number;
-    photo_count: number;
-    map: StravaActivityMap;
-    trainer: boolean;
-    commute: boolean;
-    manual: boolean;
-    private: boolean;
-    visibility: string;
-    flagged: boolean;
-    gear_id?: any;
-    start_latlng: number[];
-    end_latlng: number[];
-    average_speed: number;
-    max_speed: number;
-    device_watts: boolean;
-    has_heartrate: boolean;
+    average_heartrate?: number;
+    max_heartrate?: number;
     heartrate_opt_out: boolean;
     display_hide_heartrate_option: boolean;
     elev_high: number;
@@ -206,21 +155,23 @@ export interface StravaActivityDetails {
     total_photo_count: number;
     has_kudoed: boolean;
     description?: any;
-    calories: number;
-    perceived_exertion: number;
-    prefer_perceived_exertion: boolean;
-    segment_efforts: SegmentEffort[];
-    splits_metric: SplitsMetric[];
-    splits_standard: SplitsStandard[];
-    laps: Lap[];
-    photos: StravaPhotos;
-    stats_visibility: StatsVisibility[];
-    hide_from_home: boolean;
-    device_name: string;
-    embed_token: string;
-    available_zones: any[];
+    calories?: number;
+    perceived_exertion?: number;
+    prefer_perceived_exertion?: boolean;
+    segment_efforts?: SegmentEffort[];
+    splits_metric?: SplitsMetric[];
+    splits_standard?: SplitsStandard[];
+    laps?: Lap[];
+    photos?: StravaPhotos;
+    stats_visibility?: StatsVisibility[];
+    hide_from_home?: boolean;
+    device_name?: string;
+    embed_token?: string;
+    available_zones?: any[];
+    createdAt: Date,
+    updateAt: Date,
+    createdBy: string
 }
-
 export interface StravaActivityAthlete {
     id: number;
     resource_state: number;
@@ -236,8 +187,6 @@ export interface StravaActivityMap {
 
 export interface Athlete {
     id: number;
-    resource_state: number;
-
     username: string;
     firstname: string;
     lastname: string;
