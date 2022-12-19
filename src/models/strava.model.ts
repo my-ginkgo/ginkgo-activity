@@ -99,6 +99,13 @@ export interface StatsVisibility {
     visibility: string;
 }
 
+export interface Gear {
+    id: string;
+    name: string;
+    primary: boolean;
+    distance: number;
+}
+
 export interface StravaActivity {
     id: string;
     detailsUploaded: boolean;
@@ -133,6 +140,7 @@ export interface StravaActivity {
     visibility: string;
     flagged: boolean;
     gear_id?: any;
+    gear?: Gear;
     start_latlng: number[];
     end_latlng: number[];
     average_speed: number;
@@ -172,6 +180,7 @@ export interface StravaActivity {
     updateAt: Date,
     createdBy: string
 }
+
 export interface StravaActivityAthlete {
     id: number;
     resource_state: number;
