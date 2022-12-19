@@ -1,6 +1,5 @@
 export interface Segment {
     id: number;
-    resource_state: number;
     name: string;
     activity_type: string;
     distance: number;
@@ -18,6 +17,7 @@ export interface Segment {
     private: boolean;
     hazardous: boolean;
     starred: boolean;
+    map: StravaActivityMap;
 }
 
 export interface Achievement {
@@ -30,18 +30,18 @@ export interface SegmentEffort {
     id: any;
     resource_state: number;
     name: string;
-    activity: any;
-    athlete: Athlete;
     elapsed_time: number;
     moving_time: number;
     start_date: Date;
     start_date_local: Date;
     distance: number;
-    start_index: number;
-    end_index: number;
+    // start_index: number;
+    // end_index: number;
     device_watts: boolean;
+    average_watts: number;
     segment: Segment;
     pr_rank?: number;
+    kom_rank?: number;
     achievements: Achievement[];
     hidden: boolean;
 }
