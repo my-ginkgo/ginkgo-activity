@@ -135,6 +135,7 @@ export declare interface Cut {
     start: number;
     end: number;
     blocksType: 'gps' | 'heart'[];
+    metrics: ActivityMetrics;
 }
 export declare interface ActivityBlocks {
     geoPositionBlocks: GeoPositionBlock[];
