@@ -269,7 +269,7 @@ export declare interface ActivityGeoPositionSettings {
 
 export declare interface ActivityUserInfo {
     activityLevel: number;
-    idmId: string;
+    id: string;
     username: string;
     gender: string;
     weight: number;
