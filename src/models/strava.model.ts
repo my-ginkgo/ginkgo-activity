@@ -1,5 +1,6 @@
 export interface Segment {
     id: number;
+    detailsUploaded: boolean;
     name: string;
     activity_type: string;
     distance: number;
