@@ -81,7 +81,8 @@ export const initNewActivity = (type: ActivityType, name: string): Activity => {
         name,
         type,
         updatedAt: null,
-        provider: ActivityProvider.ginkgo
+        provider: ActivityProvider.ginkgo,
+        reactions: []
     };
 };
 

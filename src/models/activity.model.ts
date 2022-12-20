@@ -105,6 +105,17 @@ export declare interface RxDBActivityData {
     id: string;
     blocks: ActivityBlocks;
 }
+export enum ReactionType {
+    LIKE = 'like',
+    APPLAUSE = 'applause',
+    LOVE = 'love',
+    REMOVE = 'remove'
+}
+export declare interface Reaction {
+    user: string,
+        date: number,
+        type: ReactionType
+}
 
 export declare interface Activity {
     name: string;
@@ -123,6 +134,7 @@ export declare interface Activity {
     provider: ActivityProvider;
     cuts?: Cut[];
     userInfo: ActivityUserInfo | null;
+    reactions: Reaction[];
 }
 export enum ActivityProvider {
     ginkgo = 'Ginkgo',
