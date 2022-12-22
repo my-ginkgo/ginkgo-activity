@@ -311,25 +311,33 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
             username: userInfo.username,
         },
     };
-    const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
     stravaActivity.streams?.time?.data.forEach((t: number | number[], index: number) => {
+        const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
         geoBlock.time = t as number;
-        geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
-        geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
-        geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
-        geoBlock.long = stravaActivity.streams?.latlng?.data[index] as number[]  [1] as number;
-        geoBlock.speed = stravaActivity.streams?.altitude?.data[index] as number;
-        geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
-        geoBlock.heading = index > 0 && stravaActivity.streams?.time?.data[index + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[index + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[index + 1] as number[] [1] as number) : 0;
-
-        const heartBlock: HeartBlock = INITHEARTBLOCK;
-        heartBlock.time = t as number;
-        heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
-        heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
-
+        if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
+            geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
+            geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
+        }
+        if (stravaActivity.streams?.latlng?.data && stravaActivity.streams?.latlng?.data?.length > 0) {
+            geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
+            geoBlock.long = stravaActivity.streams?.latlng?.data[index] as number[]  [1] as number;
+            geoBlock.heading = index > 0 && stravaActivity.streams?.time?.data[index + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[index + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[index + 1] as number[] [1] as number) : 0;
+        }
+        if (stravaActivity.streams?.velocity_smooth?.data && stravaActivity.streams?.velocity_smooth?.data?.length > 0) {
+            geoBlock.speed = stravaActivity.streams?.velocity_smooth?.data[index] as number;
+            geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
+        }
         activity.blocks.geoPositionBlocks.push(geoBlock);
-        activity.blocks.heartBlocks.push(heartBlock);
+
+        if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
+            const heartBlock: HeartBlock = INITHEARTBLOCK;
+            heartBlock.time = t as number;
+            heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
+            heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
+            activity.blocks.heartBlocks.push(heartBlock);
+        }
     });
+    console.log(activity.blocks.geoPositionBlocks[0], activity.blocks.geoPositionBlocks[199]);
     if (activity.blocks.geoPositionBlocks.length > 0) {
         activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
     }
