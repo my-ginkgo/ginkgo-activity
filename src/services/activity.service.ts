@@ -293,68 +293,73 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
     height: number;
     birthdate: string;
 }) => {
-    console.log('init', stravaActivity, userInfo);
-    const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
-    console.log('TYPE', type);
-    let activity: Activity = initNewActivity(type, stravaActivity.name);
+    try {
 
-    activity = {
-        ...activity,
-        provider: ActivityProvider.strava,
-        userInfo: {
-            age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
-            activityLevel: userInfo.activityLevel,
-            id: userInfo.id,
-            weight: userInfo.weight,
-            height: userInfo.height,
-            gender: userInfo.gender,
-            username: userInfo.username,
-        },
-    };
-    console.log(stravaActivity.streams?.time?.data[0], stravaActivity.streams?.time?.data[50]);
-    console.log('BLOCKS', JSON.stringify(activity.blocks));
-    if (stravaActivity.streams?.time?.data) {
-        for (let index = 0; index < stravaActivity.streams?.time?.data?.length; index++) {
-            const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
-            geoBlock.time = stravaActivity.streams?.time?.data[index] as number;
-            geoBlock.cts = index;
-            if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
-                geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
-                geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
-            }
-            if (stravaActivity.streams?.latlng?.data && stravaActivity.streams?.latlng?.data?.length > 0) {
-                geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
-                geoBlock.long = stravaActivity.streams?.latlng?.data[index] as number[]  [1] as number;
-                geoBlock.heading = index > 0 && stravaActivity.streams?.time?.data[index + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[index + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[index + 1] as number[] [1] as number) : 0;
-            }
-            if (stravaActivity.streams?.velocity_smooth?.data && stravaActivity.streams?.velocity_smooth?.data?.length > 0) {
-                geoBlock.speed = stravaActivity.streams?.velocity_smooth?.data[index] as number;
-                geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
-            }
-            activity.blocks.geoPositionBlocks = [...activity.blocks.geoPositionBlocks, geoBlock];
+        console.log('init', stravaActivity, userInfo);
+        const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
+        console.log('TYPE', type);
+        let activity: Activity = initNewActivity(type, stravaActivity.name);
 
-            if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
-                const heartBlock: HeartBlock = INITHEARTBLOCK;
-                heartBlock.time = stravaActivity.streams?.time?.data[index] as number;
-                heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
-                heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
-                activity.blocks.heartBlocks = [...activity.blocks.heartBlocks, heartBlock];
+        activity = {
+            ...activity,
+            provider: ActivityProvider.strava,
+            userInfo: {
+                age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
+                activityLevel: userInfo.activityLevel,
+                id: userInfo.id,
+                weight: userInfo.weight,
+                height: userInfo.height,
+                gender: userInfo.gender,
+                username: userInfo.username,
+            },
+        };
+        console.log(stravaActivity.streams?.time?.data[0], stravaActivity.streams?.time?.data[50]);
+        console.log('BLOCKS', JSON.stringify(activity.blocks));
+        if (stravaActivity.streams?.time?.data) {
+            for (let index = 0; index < stravaActivity.streams?.time?.data?.length; index++) {
+                const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
+                geoBlock.time = stravaActivity.streams?.time?.data[index] as number;
+                geoBlock.cts = index;
+                if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
+                    geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
+                    geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
+                }
+                if (stravaActivity.streams?.latlng?.data && stravaActivity.streams?.latlng?.data?.length > 0) {
+                    geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
+                    geoBlock.long = stravaActivity.streams?.latlng?.data[index] as number[]  [1] as number;
+                    geoBlock.heading = index > 0 && stravaActivity.streams?.time?.data[index + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[index + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[index + 1] as number[] [1] as number) : 0;
+                }
+                if (stravaActivity.streams?.velocity_smooth?.data && stravaActivity.streams?.velocity_smooth?.data?.length > 0) {
+                    geoBlock.speed = stravaActivity.streams?.velocity_smooth?.data[index] as number;
+                    geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
+                }
+                activity.blocks.geoPositionBlocks = [...activity.blocks.geoPositionBlocks, geoBlock];
+
+                if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
+                    const heartBlock: HeartBlock = INITHEARTBLOCK;
+                    heartBlock.time = stravaActivity.streams?.time?.data[index] as number;
+                    heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
+                    heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
+                    activity.blocks.heartBlocks = [...activity.blocks.heartBlocks, heartBlock];
+                }
             }
+            if (activity.blocks.geoPositionBlocks.length > 0) {
+                activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
+            }
+            if (activity.blocks.heartBlocks.length > 0) {
+                activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
+            }
+            if (activity.blocks.geoPositionBlocks.length > 0 && activity.blocks.heartBlocks.length > 0) {
+                activity.metrics.metabolic = MP.calcAll(activity.blocks, activity.settings, activity.userInfo as ActivityUserInfo, activity.metrics, activity.type) as MetabolicMetrics;
+            }
+            console.log(activity.blocks?.geoPositionBlocks[0].time, activity.blocks?.geoPositionBlocks[50].time);
+            return activity;
         }
-        if (activity.blocks.geoPositionBlocks.length > 0) {
-            activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
-        }
-        if (activity.blocks.heartBlocks.length > 0) {
-            activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
-        }
-        if (activity.blocks.geoPositionBlocks.length > 0 && activity.blocks.heartBlocks.length > 0) {
-            activity.metrics.metabolic = MP.calcAll(activity.blocks, activity.settings, activity.userInfo as ActivityUserInfo, activity.metrics, activity.type) as MetabolicMetrics;
-        }
-        return activity;
+        console.log('No Time Block for create activity.');
+        return null;
+    } catch (e:any) {
+        console.log('ERR CONVERSION STRAVA / GNK:', e.message);
     }
-    console.log(activity.blocks?.geoPositionBlocks[0].time, activity.blocks?.geoPositionBlocks[50].time);
-    console.log('No Time Block for create activity.');
-    return null;
 };
 
 

@@ -21,6 +21,6 @@ declare const _default: {
         weight: number;
         height: number;
         birthdate: string;
-    }) => Activity | null;
+    }) => Activity | null | undefined;
 };
 export default _default;
