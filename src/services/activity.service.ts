@@ -312,9 +312,9 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         console.log(stravaActivity.streams?.time?.data[0], stravaActivity.streams?.time?.data[50]);
         if (stravaActivity.streams?.time?.data) {
             for (let counter = 0; counter < stravaActivity.streams?.time?.data?.length; counter++) {
-                console.log('T', stravaActivity.streams?.time?.data[counter]);
                 const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
                 geoBlock.time = stravaActivity.streams?.time?.data[counter] as number;
+                console.log('T', stravaActivity.streams?.time?.data[counter], geoBlock.time);
                 geoBlock.cts = counter;
                 if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
                     geoBlock.altitude = stravaActivity.streams?.altitude?.data[counter] as number;
@@ -330,6 +330,7 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
                     geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
                 }
                 activity.blocks.geoPositionBlocks = [...activity.blocks.geoPositionBlocks, geoBlock];
+                console.log('F', stravaActivity.streams?.time?.data[counter], activity.blocks.geoPositionBlocks[counter].time);
 
                 if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                     const heartBlock: HeartBlock = INITHEARTBLOCK;
