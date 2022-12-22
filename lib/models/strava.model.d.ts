@@ -128,7 +128,7 @@ export interface Athlete {
     friend?: any;
     follower?: any;
 }
-export declare enum StreamType {
+export declare enum StravaStreamType {
     grade_smooth = "grade smooth",
     moving = "moving",
     watts = "watts",
@@ -141,8 +141,8 @@ export declare enum StreamType {
     distance = "distance",
     time = "time"
 }
-interface StravaStreams {
-    type: StreamType;
+interface StravaStream {
+    type: StravaStreamType;
     data: number[];
     series_type: string;
     original_size: number;
@@ -222,6 +222,6 @@ export interface StravaActivity {
     createdAt: Date | null;
     updateAt: Date;
     createdBy: string;
-    streams: StravaStreams[];
+    streams: StravaStream[];
 }
 export {};

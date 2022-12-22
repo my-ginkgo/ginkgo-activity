@@ -144,7 +144,7 @@ export interface Athlete {
     follower?: any;
 }
 
-export enum StreamType {
+export enum StravaStreamType {
     grade_smooth = 'grade smooth',
     moving = 'moving',
     watts = 'watts',
@@ -158,8 +158,8 @@ export enum StreamType {
     time = 'time'
 }
 
-interface StravaStreams {
-    type: StreamType;
+interface StravaStream {
+    type: StravaStreamType;
     data: number[];
     series_type: string;
     original_size: number;
@@ -240,6 +240,6 @@ export interface StravaActivity {
     createdAt: Date | null;
     updateAt: Date,
     createdBy: string,
-    streams: StravaStreams[]
+    streams: StravaStream[]
 }
 
