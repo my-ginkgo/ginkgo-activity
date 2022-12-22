@@ -10,6 +10,8 @@ export declare const HR: {
 };
 export declare const MP: {
     calcAll: (blocks: import("..").ActivityBlocks, settings: import("..").ActivitySettings, userInfo: import("..").ActivityUserInfo, metrics: import("..").ActivityMetrics, type: import("..").ActivityType) => import("..").MetabolicMetrics;
+    calcCalorieConumptionSpecific: (type: import("..").ActivityType, level: number, weight: number, totalDistance: number, avgpower: number, totalTime: number) => number;
+    calcCalorieRequirements: (mb: number, level: number) => number;
 };
 export declare const ACTIVITY: {
     initNewActivity: (type: import("..").ActivityType, name: string) => import("..").Activity;
@@ -23,4 +25,20 @@ export declare const ACTIVITY: {
         data: import("../models/telemetryExtractor").TelemetryExport;
         fps: string;
     };
+    convertStravaTypeToGinkgo: (type: string, sport_type: string, workout_type: number | undefined) => import("..").ActivityType;
+    fromStravaActivityToGinkgoActivity: (stravaActivity: import("..").StravaActivity, userId: string, userInfo: {
+        activityLevel: number;
+        id: string;
+        username: string;
+        gender: string;
+        weight: number;
+        height: number;
+        birthdate: string;
+    }) => import("..").Activity;
+};
+export declare const MAP: {
+    calcBearing: (startLat: number, startLng: number, destLat: number, destLng: number) => number;
+    toDegrees: (radians: number) => number;
+    toRad: (value: number) => number;
+    calcCrow: (lat1: number, lon1: number, lat2: number, lon2: number) => number;
 };

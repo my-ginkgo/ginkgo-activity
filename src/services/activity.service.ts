@@ -5,6 +5,8 @@ import {
     ActivitySettings,
     ActivityStatus,
     ActivityType,
+    ActivityUserInfo,
+    calculateAge,
     calculateValueInRange,
     DEFAULT_CAR_GEO_SETTINGS,
     DEFAULT_EBIKE_GEO_SETTINGS,
@@ -14,11 +16,20 @@ import {
     DEFAULT_RUNNING_GEO_SETTINGS,
     DEFAULT_TREKKING_GEO_SETTINGS,
     DeviceTypeEnum,
-    GeoPositionBlock, GyroscopeBlock,
+    GeoPositionBlock,
+    GpsMetrics,
+    GyroscopeBlock,
+    HeartBlock,
+    HeartMetrics,
+    INITGEOPOSITIONBLOCK,
+    INITHEARTBLOCK,
+    MetabolicMetrics,
+    StravaActivity,
 } from '../models';
 import {TelemetryExport} from '../models/telemetryExtractor';
+import {GPS, HR, MAP, MP} from './index';
 
-export const initNewActivity = (type: ActivityType, name: string): Activity => {
+const initNewActivity = (type: ActivityType, name: string): Activity => {
     return {
         devices: [],
         drills: [],
@@ -83,11 +94,11 @@ export const initNewActivity = (type: ActivityType, name: string): Activity => {
         type,
         updatedAt: null,
         provider: ActivityProvider.ginkgo,
-        reactions: []
+        reactions: [],
     };
 };
 
-export const calcActivitySettings = (type: ActivityType): ActivitySettings => {
+const calcActivitySettings = (type: ActivityType): ActivitySettings => {
     const settings: ActivitySettings = {
         geoPosition: {
             altitudeAccuracyRange: [],
@@ -129,7 +140,7 @@ export const calcActivitySettings = (type: ActivityType): ActivitySettings => {
     return settings;
 };
 
-export const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: string }, newActivity: Activity) => {
+const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: string }, newActivity: Activity) => {
     const devideID = new Date().valueOf().toString();
     // DEVICE
     newActivity.devices = [{
@@ -201,7 +212,7 @@ export const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: str
     return newActivity;
 };
 
-export const convertDataFromGPX = (content: string, newActivity: Activity): Activity => {
+const convertDataFromGPX = (content: string, newActivity: Activity): Activity => {
     const GPX = require('gpx-parser-builder');
     const parsedGpx: any = GPX.parse(content);
     console.warn('GPX', parsedGpx.trk);
@@ -246,7 +257,7 @@ export const convertDataFromGPX = (content: string, newActivity: Activity): Acti
     return newActivity;
 };
 
-export const normilizeTelemetryJSON = (message: string): { data: TelemetryExport; fps: string } => {
+const normilizeTelemetryJSON = (message: string): { data: TelemetryExport; fps: string } => {
     const content = message
         .replace('"1":', '"data":')
         .replace('frames/second', 'fps')
@@ -255,10 +266,78 @@ export const normilizeTelemetryJSON = (message: string): { data: TelemetryExport
     return res;
 };
 
+// tslint:disable-next-line:variable-name
+const convertStravaTypeToGinkgo = (type: string, sport_type: string, workout_type: number | undefined): ActivityType => {
+    if (sport_type?.includes('EMountainBikeRide') || (sport_type?.includes('EBikeRide') || type?.includes('EBikeRide'))) {
+        return ActivityType.ebike;
+    }
+    if (sport_type?.includes('MountainBikeRide') || type?.includes('Ride')) {
+        return ActivityType.mtb;
+    }
+    if (sport_type?.includes('Walk') || type?.includes('Walk')) {
+        return ActivityType.trekking;
+    }
+    if (sport_type?.includes('Run') || sport_type?.includes('TrailRun') || type?.includes('Run')) {
+        return ActivityType.running;
+    }
+
+    return ActivityType.default;
+};
+
+const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, userId: string, userInfo: {
+    activityLevel: number;
+    id: string;
+    username: string;
+    gender: string;
+    weight: number;
+    height: number;
+    birthdate: string;
+}) => {
+    const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
+    let activity: Activity = initNewActivity(type, stravaActivity.name);
+
+    activity = {
+        ...activity,
+        provider: ActivityProvider.strava,
+        userInfo: {
+            age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
+            activityLevel: userInfo.activityLevel,
+            id: userInfo.id,
+            weight: userInfo.weight,
+            height: userInfo.height,
+            gender: userInfo.gender,
+            username: userInfo.username,
+        },
+    };
+    stravaActivity.streams?.time?.data.forEach((t: number | number[], index: number) => {
+        const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
+        geoBlock.time = t as number;
+        geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
+        geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
+        geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
+        geoBlock.long = stravaActivity.streams?.latlng?.data[index] as number[]  [1] as number;
+        geoBlock.speed = stravaActivity.streams?.altitude?.data[index] as number;
+        geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
+        geoBlock.heading = index > 0 && stravaActivity.streams?.time?.data[index + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[index + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[index + 1] as number[] [1] as number) : 0;
+
+        const heartBlock: HeartBlock = INITHEARTBLOCK;
+        heartBlock.time = t as number;
+        heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
+        heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
+    });
+    activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
+    activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
+    activity.metrics.metabolic = MP.calcAll(activity.blocks, activity.settings, activity.userInfo as ActivityUserInfo, activity.metrics, activity.type) as MetabolicMetrics;
+    return activity;
+};
+
+
 export default {
     initNewActivity,
     calcActivitySettings,
     convertDataFromJsonTE,
     convertDataFromGPX,
     normilizeTelemetryJSON,
+    convertStravaTypeToGinkgo,
+    fromStravaActivityToGinkgoActivity,
 };

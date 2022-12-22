@@ -70,3 +70,18 @@ export const calculateValueInRange = (value: number, range: KeyValue<string, num
   }
   return 'Out of range';
 };
+
+export const calculateAge = (birthdateString: string, execDate?: Date): number => {
+  const now = execDate ? execDate : new Date();
+  const date = birthdateString.split('-');
+  const dd = +date[0];
+  const mm = +date[1] - 1;
+  const yyyy = +date[2];
+  const birthdate = new Date(yyyy, mm, dd);
+  let age = now.getFullYear() - birthdate.getFullYear();
+  const m = now.getMonth() - birthdate.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < birthdate.getDate())) {
+    age = age - 1;
+  }
+  return age;
+};

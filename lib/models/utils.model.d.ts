@@ -4,3 +4,4 @@ export declare const getMillisecondsBetweenTwoDates: (deltaTime: number, start: 
 export declare const generateActivityNameByTime: () => string;
 export declare const isActivity: (object: any) => object is Activity;
 export declare const calculateValueInRange: (value: number, range: KeyValue<string, number>[]) => string;
+export declare const calculateAge: (birthdateString: string, execDate?: Date) => number;

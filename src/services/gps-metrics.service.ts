@@ -6,21 +6,16 @@ import {
     GpsMetrics,
 } from '../models';
 import {KeyValue} from '../models/ng-keyvalue.model';
-import {calcCrow} from './map.service';
+import {MAP} from './index';
 
-export const calcAll = (blocks: ActivityBlocks, settings: ActivitySettings): Partial<GpsMetrics> => {
+const calcAll = (blocks: ActivityBlocks, settings: ActivitySettings): Partial<GpsMetrics> => {
     return {
         ...calcValues(blocks),
         ...calcRanges(blocks, settings),
     };
 };
 
-export const calcValues = (
-    blocks: ActivityBlocks,
-): Pick<
-    GpsMetrics,
-    'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'
-> => {
+const calcValues = (    blocks: ActivityBlocks): Pick<GpsMetrics, 'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'> => {
     const gpsMetrics: Pick<
         GpsMetrics,
         'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'
@@ -49,7 +44,7 @@ export const calcValues = (
     return gpsMetrics;
 };
 
-export const calcRanges = (blocks: ActivityBlocks, settings: ActivitySettings): Partial<GpsMetrics> => {
+const calcRanges = (blocks: ActivityBlocks, settings: ActivitySettings): Partial<GpsMetrics> => {
     const gpsMetrics: Pick<
         GpsMetrics,
         | 'totalDistance'
@@ -83,7 +78,7 @@ export const calcRanges = (blocks: ActivityBlocks, settings: ActivitySettings): 
             blocks.geoPositionBlocks[i].lat,
             blocks.geoPositionBlocks[i].long,
         ];
-        const diffDistance = calcCrow(previousPoint[0], previousPoint[1], currentPoint[0], currentPoint[1]);
+        const diffDistance = MAP.calcCrow(previousPoint[0], previousPoint[1], currentPoint[0], currentPoint[1]);
 
         gpsMetrics.totalDistance += diffDistance;
         if (blocks.geoPositionBlocks[i].altitude < blocks.geoPositionBlocks[i - 1].altitude) {

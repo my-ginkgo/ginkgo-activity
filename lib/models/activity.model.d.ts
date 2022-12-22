@@ -281,24 +281,8 @@ export declare enum ActivityStatus {
     live = "live",
     completed = "completed"
 }
-export declare const INITGEOPOSITIONBLOCK: {
-    altitude: number;
-    speed: number;
-    speedRange: string;
-    altitudeRange: string;
-    altitudeAccuracyRange: string;
-    accuracyRange: string;
-    speed3d: number;
-    cts: number;
-    long: number;
-    lat: number;
-    accuracy: number;
-    heading: number;
-    altitudeAccuracy: number;
-    time: number;
-    device: null;
-    exclude: boolean;
-};
+export declare const INITGEOPOSITIONBLOCK: GeoPositionBlock;
+export declare const INITHEARTBLOCK: HeartBlock;
 export declare const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_EBIKE_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_RUNNING_GEO_SETTINGS: ActivityGeoPositionSettings;

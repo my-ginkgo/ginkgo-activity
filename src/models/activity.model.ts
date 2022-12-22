@@ -315,7 +315,7 @@ export enum ActivityStatus {
     completed = 'completed',
 }
 
-export const INITGEOPOSITIONBLOCK = {
+export const INITGEOPOSITIONBLOCK: GeoPositionBlock = {
     altitude: 0,
     speed: 0,
     speedRange: '',
@@ -332,6 +332,16 @@ export const INITGEOPOSITIONBLOCK = {
     time: 0,
     device: null,
     exclude: false,
+};
+export const INITHEARTBLOCK: HeartBlock = {
+    device: {
+        deviceId: '',
+        type: DeviceTypeEnum.hr
+    },
+    exclude: false,
+    heartRange: '',
+    heartRate: 0,
+    time: 0
 };
 
 export const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings = {

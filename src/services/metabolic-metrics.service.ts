@@ -7,7 +7,7 @@ import {
   MetabolicMetrics,
 } from '../models/activity.model';
 
-export const calcAll = (
+ const calcAll = (
   blocks: ActivityBlocks,
   settings: ActivitySettings,
   userInfo: ActivityUserInfo,
@@ -91,6 +91,7 @@ const calcCalorieConumptionSpecific = (
 
   return 0;
 };
+
 const calcCalorieRequirements = (mb: number, level: number): number => {
   switch (level) {
     case 1:
@@ -104,4 +105,4 @@ const calcCalorieRequirements = (mb: number, level: number): number => {
   }
 };
 
-export default { calcAll };
+export default { calcAll, calcCalorieConumptionSpecific, calcCalorieRequirements };
