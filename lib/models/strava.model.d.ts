@@ -155,7 +155,7 @@ export interface StravaStreams {
 }
 export interface StravaStreamData {
     type: StravaStreamType;
-    data: number[];
+    data: number[] | number[][];
     series_type: string;
     original_size: number;
     resolution: string;
