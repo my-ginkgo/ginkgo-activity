@@ -312,8 +312,10 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         },
     };
     console.log(stravaActivity.streams?.time?.data[0], stravaActivity.streams?.time?.data[50]);
+    console.log('BLOCKS', JSON.stringify(activity.blocks));
     if (stravaActivity.streams?.time?.data) {
         for (let index = 0; index < stravaActivity.streams?.time?.data?.length; index++) {
+            console.log('index', index);
             const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
             geoBlock.time = stravaActivity.streams?.time?.data[index] as number;
             if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
@@ -350,6 +352,7 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         }
         return activity;
     }
+    console.log(activity.blocks?.geoPositionBlocks[0].time, activity.blocks?.geoPositionBlocks[50].time);
     console.log('No Time Block for create activity.');
     return null;
 };
