@@ -158,7 +158,19 @@ export enum StravaStreamType {
     time = 'time'
 }
 
-export interface StravaStream {
+export interface StravaStreams {
+    moving?: StravaStreamData;
+    watts?: StravaStreamData;
+    temp?: StravaStreamData;
+    cadence?: StravaStreamData;
+    heartrate?: StravaStreamData;
+    velocity_smooth?: StravaStreamData;
+    altitude?: StravaStreamData;
+    latlng?: StravaStreamData;
+    distance?: StravaStreamData;
+    time?: StravaStreamData;
+}
+export interface StravaStreamData {
     type: StravaStreamType;
     data: number[];
     series_type: string;
@@ -240,6 +252,6 @@ export interface StravaActivity {
     createdAt: Date | null;
     updateAt: Date,
     createdBy: string,
-    streams: StravaStream[]
+    streams?: StravaStreams;
 }
 
