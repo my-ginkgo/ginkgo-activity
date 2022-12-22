@@ -311,6 +311,7 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
             username: userInfo.username,
         },
     };
+    console.log(stravaActivity.streams?.time?.data[0], stravaActivity.streams?.time?.data[50]);
     if (stravaActivity.streams?.time?.data) {
         for (let index = 0; index < stravaActivity.streams?.time?.data?.length; index++) {
             const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
@@ -328,17 +329,16 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
                 geoBlock.speed = stravaActivity.streams?.velocity_smooth?.data[index] as number;
                 geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
             }
-            activity.blocks.geoPositionBlocks.push(geoBlock);
+            activity.blocks.geoPositionBlocks = [...activity.blocks.geoPositionBlocks, geoBlock];
 
             if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                 const heartBlock: HeartBlock = INITHEARTBLOCK;
                 heartBlock.time = stravaActivity.streams?.time?.data[index] as number;
                 heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
                 heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
-                activity.blocks.heartBlocks.push(heartBlock);
+                activity.blocks.heartBlocks = [...activity.blocks.heartBlocks, heartBlock];
             }
         }
-        console.log(activity.blocks.geoPositionBlocks[0], activity.blocks.geoPositionBlocks[199]);
         if (activity.blocks.geoPositionBlocks.length > 0) {
             activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
         }
@@ -350,7 +350,7 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         }
         return activity;
     }
-    console.log("No Time Block for create activity.")
+    console.log('No Time Block for create activity.');
     return null;
 };
 
