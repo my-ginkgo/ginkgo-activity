@@ -293,7 +293,9 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
     height: number;
     birthdate: string;
 }) => {
+    console.log('init', stravaActivity, userInfo);
     const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
+    console.log('TYPE', type);
     let activity: Activity = initNewActivity(type, stravaActivity.name);
 
     activity = {
@@ -311,9 +313,7 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
     };
     stravaActivity.streams?.time?.data.forEach((t: number | number[], index: number) => {
         const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
-        console.log('BEFORE', t);
         geoBlock.time = t as number;
-        console.log('AFTER', typeof  t);
         geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
         geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
         geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
