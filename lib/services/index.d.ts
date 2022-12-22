@@ -34,7 +34,7 @@ export declare const ACTIVITY: {
         weight: number;
         height: number;
         birthdate: string;
-    }) => import("..").Activity;
+    }) => import("..").Activity | null;
 };
 export declare const MAP: {
     calcBearing: (startLat: number, startLng: number, destLat: number, destLng: number) => number;
