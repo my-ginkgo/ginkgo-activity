@@ -148,6 +148,7 @@ export interface StravaStreams {
     cadence?: StravaStreamData;
     heartrate?: StravaStreamData;
     velocity_smooth?: StravaStreamData;
+    grade_smooth?: StravaStreamData;
     altitude?: StravaStreamData;
     latlng?: StravaStreamData;
     distance?: StravaStreamData;
