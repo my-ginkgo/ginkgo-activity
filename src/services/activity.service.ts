@@ -311,8 +311,8 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
             username: userInfo.username,
         },
     };
+    const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
     stravaActivity.streams?.time?.data.forEach((t: number | number[], index: number) => {
-        const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
         geoBlock.time = t as number;
         geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
         geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
@@ -326,6 +326,9 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         heartBlock.time = t as number;
         heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
         heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
+
+        activity.blocks.geoPositionBlocks.push(geoBlock);
+        activity.blocks.heartBlocks.push(heartBlock);
     });
     if (activity.blocks.geoPositionBlocks.length > 0) {
         activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
