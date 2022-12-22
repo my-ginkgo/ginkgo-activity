@@ -273,7 +273,8 @@ export declare enum ActivityType {
     mtb = "MTB",
     ebike = "EBike",
     motorcycle = "Motorcycle",
-    car = "Car"
+    car = "Car",
+    default = "Default"
 }
 export declare enum ActivityStatus {
     new = "new",
@@ -303,5 +304,6 @@ export declare const DEFAULT_EBIKE_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_RUNNING_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_TREKKING_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_CAR_GEO_SETTINGS: ActivityGeoPositionSettings;
+export declare const DEFAULT_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_MOTORCYCLE_GEO_SETTINGS: ActivityGeoPositionSettings;
 export declare const DEFAULT_HEART_SETTINGS: ActivityHeartSettings;

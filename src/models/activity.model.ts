@@ -306,6 +306,7 @@ export enum ActivityType {
     ebike = 'EBike',
     motorcycle = 'Motorcycle',
     car = 'Car',
+    default = 'Default',
 }
 
 export enum ActivityStatus {
@@ -448,6 +449,39 @@ export const DEFAULT_TREKKING_GEO_SETTINGS: ActivityGeoPositionSettings = {
     ],
 };
 export const DEFAULT_CAR_GEO_SETTINGS: ActivityGeoPositionSettings = {
+    altitudeAccuracyRange: [
+        {key: 'Valid', value: 8},
+        {key: 'Warning', value: 15},
+    ],
+    accuracyRange: [
+        {key: 'Valid', value: 8},
+        {key: 'Warning', value: 15},
+    ],
+    altitudeRange: [
+        {key: 'Pianura', value: 300},
+        {key: 'Collina', value: 600},
+        {key: 'Montagna', value: 2000},
+        {key: 'Alta Quota', value: 10000},
+    ],
+    distanceRange: [
+        {key: 'Light', value: 20000},
+        {key: 'Easy', value: 60000},
+        {key: 'Medium', value: 150000},
+        {key: 'Hard', value: 250000},
+    ],
+    speedRange: [
+        {key: 'Rest', value: 0.25},
+        {key: '< 50', value: 13.88},
+        {key: '< 70', value: 19.44},
+        {key: '< 90', value: 25},
+        {key: '< 110', value: 30.55},
+        {key: '< 130', value: 36.11},
+        {key: '< 150', value: 41.66},
+        {key: '< 180', value: 50},
+        {key: '< 210', value: 58.33},
+    ],
+};
+export const DEFAULT_GEO_SETTINGS: ActivityGeoPositionSettings = {
     altitudeAccuracyRange: [
         {key: 'Valid', value: 8},
         {key: 'Warning', value: 15},
