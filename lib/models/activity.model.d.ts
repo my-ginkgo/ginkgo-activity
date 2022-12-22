@@ -102,7 +102,11 @@ export declare enum ReactionType {
     REMOVE = "remove"
 }
 export declare interface Reaction {
-    user: string;
+    user: {
+        id: string;
+        username: string;
+        avatar: string;
+    };
     date: number;
     type: ReactionType;
 }
@@ -132,8 +136,8 @@ export declare enum ActivityProvider {
 export declare interface Drill {
     name: string;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     metrics: ActivityMetrics;
     settings: ActivitySettings;
     start: number;
@@ -142,8 +146,8 @@ export declare interface Drill {
 export declare interface Cut {
     name: string;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     start: number;
     end: number;
     blocksType: 'gps' | 'heart'[];

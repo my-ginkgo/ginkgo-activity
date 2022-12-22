@@ -17,8 +17,8 @@ export declare interface Media {
   lensModel?: string;
   width?: number;
   height?: number;
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: Date | null;
+  createdAt: Date | null;
   performance?: boolean;
   visionAI?: any;
 }

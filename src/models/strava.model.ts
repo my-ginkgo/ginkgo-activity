@@ -1,3 +1,5 @@
+import {ActivityProvider} from './activity.model';
+
 export interface Segment {
     id: number;
     detailsUploaded: boolean;
@@ -110,6 +112,7 @@ export interface Gear {
 export interface StravaActivity {
     id: string;
     detailsUploaded: boolean;
+    provider: ActivityProvider;
     resource_state: number;
     athlete: StravaActivityAthlete;
     name: string;
@@ -177,7 +180,7 @@ export interface StravaActivity {
     device_name?: string;
     embed_token?: string;
     available_zones?: any[];
-    createdAt: Date,
+    createdAt: Date | null;
     updateAt: Date,
     createdBy: string
 }
@@ -207,8 +210,8 @@ export interface Athlete {
     sex?: any;
     premium: boolean;
     summit: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     badgeTypeId: number;
     weight: number;
     profileMedium: string;

@@ -1,4 +1,5 @@
 import {
+    AccellerationBlock,
     Activity,
     ActivityProvider,
     ActivitySettings,
@@ -13,7 +14,7 @@ import {
     DEFAULT_RUNNING_GEO_SETTINGS,
     DEFAULT_TREKKING_GEO_SETTINGS,
     DeviceTypeEnum,
-    GeoPositionBlock,
+    GeoPositionBlock, GyroscopeBlock,
 } from '../models';
 import {TelemetryExport} from '../models/telemetryExtractor';
 
@@ -166,6 +167,36 @@ export const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: str
         };
         // console.warn('NORMALIZED BLOCK', normalizedBlock);
         newActivity.blocks.geoPositionBlocks.push(normalizedBlock);
+    });
+    content.data.streams.ACCL.samples.forEach(gpsData => {
+        const normalizedBlock: AccellerationBlock = {
+            time: new Date(gpsData.date).valueOf(),
+            z: gpsData.value[0],
+            x: gpsData.value[1],
+            y: gpsData.value[2],
+            exclude: false,
+            device: {
+                deviceId: devideID,
+                type: DeviceTypeEnum.gopro,
+            },
+        };
+        // console.warn('NORMALIZED BLOCK', normalizedBlock);
+        newActivity.blocks.accelerationBlocks.push(normalizedBlock);
+    });
+    content.data.streams.GYRO.samples.forEach(gpsData => {
+        const normalizedBlock: GyroscopeBlock = {
+            time: new Date(gpsData.date).valueOf(),
+            z: gpsData.value[0],
+            x: gpsData.value[1],
+            y: gpsData.value[2],
+            exclude: false,
+            device: {
+                deviceId: devideID,
+                type: DeviceTypeEnum.gopro,
+            },
+        };
+        // console.warn('NORMALIZED BLOCK', normalizedBlock);
+        newActivity.blocks.gyroscopeBlocks.push(normalizedBlock);
     });
     return newActivity;
 };

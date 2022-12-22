@@ -105,16 +105,22 @@ export declare interface RxDBActivityData {
     id: string;
     blocks: ActivityBlocks;
 }
+
 export enum ReactionType {
+    // @ts-ignore
     LIKE = 'like',
+    // @ts-ignore
     APPLAUSE = 'applause',
+    // @ts-ignore
     LOVE = 'love',
+    // @ts-ignore
     REMOVE = 'remove'
 }
+
 export declare interface Reaction {
-    user: string,
-        date: number,
-        type: ReactionType
+    user: { id: string; username: string; avatar: string },
+    date: number,
+    type: ReactionType
 }
 
 export declare interface Activity {
@@ -136,15 +142,18 @@ export declare interface Activity {
     userInfo: ActivityUserInfo | null;
     reactions: Reaction[];
 }
+
+
 export enum ActivityProvider {
     ginkgo = 'Ginkgo',
     strava = 'Strava'
 }
+
 export declare interface Drill {
     name: string;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     metrics: ActivityMetrics;
     settings: ActivitySettings;
     start: number;
@@ -154,8 +163,8 @@ export declare interface Drill {
 export declare interface Cut {
     name: string;
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
     start: number;
     end: number;
     blocksType: 'gps' | 'heart'[];

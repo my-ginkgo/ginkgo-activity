@@ -10,15 +10,25 @@ export interface Sample {
   sticky: Sticky;
 }
 
-export interface GPS5 {
-  samples: Sample[];
-  name: string;
-  units: string[];
-}
 
 export interface Streams {
-  GPS5: GPS5;
+  ACCL: BaseStream;
+  ALLD: BaseStream;
+  FCNM: BaseStream;
+  GPS5: BaseStream;
+  GYRO: BaseStream;
+  ISOE: BaseStream;
+  SHUT: BaseStream;
+  WBAL: BaseStream;
+  WRGB: BaseStream;
 }
+
+export interface BaseStream {
+  samples: Sample[];
+  name: string;
+  units: string;
+}
+
 
 export interface TelemetryExport {
   streams: Streams;
