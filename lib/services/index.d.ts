@@ -26,7 +26,7 @@ export declare const ACTIVITY: {
         fps: string;
     };
     convertStravaTypeToGinkgo: (type: string, sport_type: string, workout_type: number | undefined) => import("..").ActivityType;
-    fromStravaActivityToGinkgoActivity: (stravaActivity: import("..").StravaActivity, userId: string, userInfo: {
+    fromStravaActivityToGinkgoActivity: (stravaActivity: import("..").StravaActivity, userInfo: {
         activityLevel: number;
         id: string;
         username: string;

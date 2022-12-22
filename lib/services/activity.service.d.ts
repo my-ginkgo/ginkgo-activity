@@ -13,7 +13,7 @@ declare const _default: {
         fps: string;
     };
     convertStravaTypeToGinkgo: (type: string, sport_type: string, workout_type: number | undefined) => ActivityType;
-    fromStravaActivityToGinkgoActivity: (stravaActivity: StravaActivity, userId: string, userInfo: {
+    fromStravaActivityToGinkgoActivity: (stravaActivity: StravaActivity, userInfo: {
         activityLevel: number;
         id: string;
         username: string;

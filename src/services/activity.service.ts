@@ -284,7 +284,7 @@ const convertStravaTypeToGinkgo = (type: string, sport_type: string, workout_typ
     return ActivityType.default;
 };
 
-const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, userId: string, userInfo: {
+const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, userInfo: {
     activityLevel: number;
     id: string;
     username: string;
