@@ -158,7 +158,7 @@ export enum StravaStreamType {
     time = 'time'
 }
 
-interface StravaStream {
+export interface StravaStream {
     type: StravaStreamType;
     data: number[];
     series_type: string;

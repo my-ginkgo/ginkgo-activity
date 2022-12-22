@@ -141,7 +141,7 @@ export declare enum StravaStreamType {
     distance = "distance",
     time = "time"
 }
-interface StravaStream {
+export interface StravaStream {
     type: StravaStreamType;
     data: number[];
     series_type: string;
@@ -224,4 +224,3 @@ export interface StravaActivity {
     createdBy: string;
     streams: StravaStream[];
 }
-export {};
