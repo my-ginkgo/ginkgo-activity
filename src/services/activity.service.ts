@@ -311,7 +311,9 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
     };
     stravaActivity.streams?.time?.data.forEach((t: number | number[], index: number) => {
         const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
+        console.log('BEFORE', t);
         geoBlock.time = t as number;
+        console.log('AFTER', typeof  t);
         geoBlock.altitude = stravaActivity.streams?.altitude?.data[index] as number;
         geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
         geoBlock.lat = stravaActivity.streams?.latlng?.data[index] as number[] [0] as number;
@@ -325,9 +327,15 @@ const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivity, user
         heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[index] as number;
         heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
     });
-    activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
-    activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
-    activity.metrics.metabolic = MP.calcAll(activity.blocks, activity.settings, activity.userInfo as ActivityUserInfo, activity.metrics, activity.type) as MetabolicMetrics;
+    if (activity.blocks.geoPositionBlocks.length > 0) {
+        activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
+    }
+    if (activity.blocks.heartBlocks.length > 0) {
+        activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
+    }
+    if (activity.blocks.geoPositionBlocks.length > 0 && activity.blocks.heartBlocks.length > 0) {
+        activity.metrics.metabolic = MP.calcAll(activity.blocks, activity.settings, activity.userInfo as ActivityUserInfo, activity.metrics, activity.type) as MetabolicMetrics;
+    }
     return activity;
 };
 
