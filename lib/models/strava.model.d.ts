@@ -97,6 +97,57 @@ export interface Gear {
     primary: boolean;
     distance: number;
 }
+export interface StravaActivityAthlete {
+    id: number;
+    resource_state: number;
+}
+export interface StravaActivityMap {
+    id: string;
+    summary_polyline: string;
+    resource_state: number;
+    polyline?: string;
+}
+export interface Athlete {
+    id: number;
+    username: string;
+    firstname: string;
+    lastname: string;
+    bio?: any;
+    city: string;
+    state: string;
+    country?: any;
+    sex?: any;
+    premium: boolean;
+    summit: boolean;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    badgeTypeId: number;
+    weight: number;
+    profileMedium: string;
+    profile: string;
+    friend?: any;
+    follower?: any;
+}
+export declare enum StreamType {
+    grade_smooth = "grade smooth",
+    moving = "moving",
+    watts = "watts",
+    temp = "temp",
+    cadence = "cadence",
+    heartrate = "heartrate",
+    velocity_smooth = "velocity_smooth",
+    altitude = "altitude",
+    latlng = "latlng",
+    distance = "distance",
+    time = "time"
+}
+interface StravaStreams {
+    type: StreamType;
+    data: number[];
+    series_type: string;
+    original_size: number;
+    resolution: string;
+}
 export interface StravaActivity {
     id: string;
     detailsUploaded: boolean;
@@ -171,35 +222,6 @@ export interface StravaActivity {
     createdAt: Date | null;
     updateAt: Date;
     createdBy: string;
+    streams: StravaStreams[];
 }
-export interface StravaActivityAthlete {
-    id: number;
-    resource_state: number;
-}
-export interface StravaActivityMap {
-    id: string;
-    summary_polyline: string;
-    resource_state: number;
-    polyline?: string;
-}
-export interface Athlete {
-    id: number;
-    username: string;
-    firstname: string;
-    lastname: string;
-    bio?: any;
-    city: string;
-    state: string;
-    country?: any;
-    sex?: any;
-    premium: boolean;
-    summit: boolean;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-    badgeTypeId: number;
-    weight: number;
-    profileMedium: string;
-    profile: string;
-    friend?: any;
-    follower?: any;
-}
+export {};
