@@ -362,7 +362,7 @@ export const fromStravaActivityToGinkgoActivityBase = (stravaActivity: StravaAct
         const activity: Activity = initNewActivity(type, stravaActivity.name);
         activity.provider = ActivityProvider.strava;
         activity.userInfo = {
-            age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
+            age: calculateAge(userInfo.birthdate, new Date(stravaActivity.start_date)),
             activityLevel: userInfo.activityLevel,
             id: userInfo.id,
             weight: userInfo.weight,
