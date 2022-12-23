@@ -4,7 +4,8 @@ import {
     ActivityProvider,
     ActivitySettings,
     ActivityStatus,
-    ActivityType, ActivityUserInfo,
+    ActivityType,
+    ActivityUserInfo,
     calculateAge,
     calculateValueInRange,
     DEFAULT_CAR_GEO_SETTINGS,
@@ -15,11 +16,14 @@ import {
     DEFAULT_RUNNING_GEO_SETTINGS,
     DEFAULT_TREKKING_GEO_SETTINGS,
     DeviceTypeEnum,
-    GeoPositionBlock, GpsMetrics,
+    GeoPositionBlock,
+    GpsMetrics,
     GyroscopeBlock,
-    HeartBlock, HeartMetrics,
+    HeartBlock,
+    HeartMetrics,
     INITGEOPOSITIONBLOCK,
-    INITHEARTBLOCK, MetabolicMetrics,
+    INITHEARTBLOCK,
+    MetabolicMetrics,
     StravaActivity,
 } from '../models';
 import {TelemetryExport} from '../models/telemetryExtractor';
@@ -295,6 +299,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
         const activity: Activity = initNewActivity(type, stravaActivity.name);
         activity.provider = ActivityProvider.strava;
         activity.stravaId = stravaActivity.id;
+        activity.startDate = stravaActivity.start_date;
         activity.userInfo = {
             age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
             activityLevel: userInfo.activityLevel,
@@ -305,9 +310,10 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
             username: userInfo.username,
         };
         if (stravaActivity.streams?.time?.data) {
+            const startLatLng = new Date(stravaActivity.start_date);
             for (let counter = 0; counter < stravaActivity.streams?.time?.data?.length; counter++) {
                 const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
-                geoBlock.time = stravaActivity.streams?.time?.data[counter] as number;
+                geoBlock.time = startLatLng.setSeconds(stravaActivity.streams?.time?.data[counter] as number + counter);
                 geoBlock.cts = counter;
                 if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
                     geoBlock.altitude = stravaActivity.streams?.altitude?.data[counter] as number;
@@ -329,7 +335,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
 
                 if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                     const heartBlock: HeartBlock = INITHEARTBLOCK;
-                    heartBlock.time = stravaActivity.streams?.time?.data[counter] as number;
+                    heartBlock.time = startLatLng.setSeconds(stravaActivity.streams?.time?.data[counter] as number + counter);
                     heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[counter] as number;
                     heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
                     activity.blocks.heartBlocks.push(JSON.parse(JSON.stringify(heartBlock)));
@@ -362,23 +368,23 @@ export const fromStravaActivityToGinkgoActivityBase = (stravaActivity: StravaAct
     height: number;
     birthdate: string;
 }) => {
-        const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
-        const activity: Activity = initNewActivity(type, stravaActivity.name);
-        activity.provider = ActivityProvider.strava;
-        activity.userInfo = {
-            age: calculateAge(userInfo.birthdate, new Date(stravaActivity.start_date)),
-            activityLevel: userInfo.activityLevel,
-            id: userInfo.id,
-            weight: userInfo.weight,
-            height: userInfo.height,
-            gender: userInfo.gender,
-            username: userInfo.username,
-        };
-        activity.metrics.gps.totalDistance = stravaActivity.distance;
-        activity.metrics.gps.totalTime = stravaActivity.elapsed_time *1000;
-        activity.startDate = stravaActivity.start_date;
-        activity.stravaId = stravaActivity.id;
-        return activity;
+    const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
+    const activity: Activity = initNewActivity(type, stravaActivity.name);
+    activity.provider = ActivityProvider.strava;
+    activity.userInfo = {
+        age: calculateAge(userInfo.birthdate, new Date(stravaActivity.start_date)),
+        activityLevel: userInfo.activityLevel,
+        id: userInfo.id,
+        weight: userInfo.weight,
+        height: userInfo.height,
+        gender: userInfo.gender,
+        username: userInfo.username,
+    };
+    activity.metrics.gps.totalDistance = stravaActivity.distance;
+    activity.metrics.gps.totalTime = stravaActivity.elapsed_time * 1000;
+    activity.startDate = stravaActivity.start_date;
+    activity.stravaId = stravaActivity.id;
+    return activity;
 };
 
 export default {
@@ -389,5 +395,5 @@ export default {
     normilizeTelemetryJSON,
     convertStravaTypeToGinkgo,
     fromStravaActivityToGinkgoActivity,
-    fromStravaActivityToGinkgoActivityBase
+    fromStravaActivityToGinkgoActivityBase,
 };
