@@ -314,8 +314,10 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
                     geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
                 }
                 if (stravaActivity.streams?.latlng?.data && stravaActivity.streams?.latlng?.data?.length > 0) {
-                    geoBlock.lat = parseInt(stravaActivity.streams?.latlng?.data[counter].toString().split(',')[0]);
-                    geoBlock.long = parseInt(stravaActivity.streams?.latlng?.data[counter].toString().split(',')[1]);
+                    // @ts-ignore
+                    geoBlock.lat = stravaActivity.streams?.latlng?.data[counter][0];
+                    // @ts-ignore
+                    geoBlock.long = stravaActivity.streams?.latlng?.data[counter][1];
                     geoBlock.heading = counter > 0 && stravaActivity.streams?.time?.data[counter + 1] ? MAP.calcBearing(geoBlock.lat, geoBlock.long, stravaActivity.streams?.latlng?.data[counter + 1] as number[] [0] as number, stravaActivity.streams?.latlng?.data[counter + 1] as number[] [1] as number) : 0;
                 }
                 if (stravaActivity.streams?.velocity_smooth?.data && stravaActivity.streams?.velocity_smooth?.data?.length > 0) {
