@@ -294,6 +294,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
         const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
         const activity: Activity = initNewActivity(type, stravaActivity.name);
         activity.provider = ActivityProvider.strava;
+        activity.stravaId = stravaActivity.stravaId;
         activity.userInfo = {
             age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
             activityLevel: userInfo.activityLevel,
@@ -373,6 +374,7 @@ export const fromStravaActivityToGinkgoActivityBase = (stravaActivity: StravaAct
         activity.metrics.gps.totalDistance = stravaActivity.distance;
         activity.metrics.gps.totalTime = stravaActivity.elapsed_time *1000;
         activity.startDate = stravaActivity.start_date;
+        activity.stravaId = stravaActivity.stravaId;
         return activity;
 };
 

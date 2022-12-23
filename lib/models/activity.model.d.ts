@@ -129,6 +129,7 @@ export declare interface Activity {
     userInfo: ActivityUserInfo | null;
     reactions: Reaction[];
     startDate: Date;
+    stravaId?: number;
 }
 export declare enum ActivityProvider {
     ginkgo = "Ginkgo",
