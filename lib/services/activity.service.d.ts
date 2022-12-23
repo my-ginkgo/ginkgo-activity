@@ -9,6 +9,15 @@ export declare const fromStravaActivityToGinkgoActivity: (stravaActivity: Strava
     height: number;
     birthdate: string;
 }) => Activity | null | undefined;
+export declare const fromStravaActivityToGinkgoActivityBase: (stravaActivity: StravaActivity, userInfo: {
+    activityLevel: number;
+    id: string;
+    username: string;
+    gender: string;
+    weight: number;
+    height: number;
+    birthdate: string;
+}) => Activity;
 declare const _default: {
     initNewActivity: (type: ActivityType, name: string) => Activity;
     calcActivitySettings: (type: ActivityType) => ActivitySettings;
@@ -31,5 +40,14 @@ declare const _default: {
         height: number;
         birthdate: string;
     }) => Activity | null | undefined;
+    fromStravaActivityToGinkgoActivityBase: (stravaActivity: StravaActivity, userInfo: {
+        activityLevel: number;
+        id: string;
+        username: string;
+        gender: string;
+        weight: number;
+        height: number;
+        birthdate: string;
+    }) => Activity;
 };
 export default _default;

@@ -141,6 +141,7 @@ export declare interface Activity {
     cuts?: Cut[];
     userInfo: ActivityUserInfo | null;
     reactions: Reaction[];
+    startDate: Date;
 }
 
 

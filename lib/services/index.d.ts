@@ -35,6 +35,15 @@ export declare const ACTIVITY: {
         height: number;
         birthdate: string;
     }) => import("..").Activity | null | undefined;
+    fromStravaActivityToGinkgoActivityBase: (stravaActivity: import("..").StravaActivity, userInfo: {
+        activityLevel: number;
+        id: string;
+        username: string;
+        gender: string;
+        weight: number;
+        height: number;
+        birthdate: string;
+    }) => import("..").Activity;
 };
 export declare const MAP: {
     calcBearing: (startLat: number, startLng: number, destLat: number, destLng: number) => number;

@@ -86,6 +86,7 @@ const initNewActivity = (type: ActivityType, name: string): Activity => {
         media: [],
         userInfo: null,
         id: 'newID',
+        startDate: new Date(),
         name,
         type,
         updatedAt: null,
@@ -348,6 +349,32 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
     }
 };
 
+export const fromStravaActivityToGinkgoActivityBase = (stravaActivity: StravaActivity, userInfo: {
+    activityLevel: number;
+    id: string;
+    username: string;
+    gender: string;
+    weight: number;
+    height: number;
+    birthdate: string;
+}) => {
+        const type = convertStravaTypeToGinkgo(stravaActivity.type, stravaActivity.sport_type, stravaActivity.workout_type);
+        const activity: Activity = initNewActivity(type, stravaActivity.name);
+        activity.provider = ActivityProvider.strava;
+        activity.userInfo = {
+            age: calculateAge(userInfo.birthdate, stravaActivity.start_date),
+            activityLevel: userInfo.activityLevel,
+            id: userInfo.id,
+            weight: userInfo.weight,
+            height: userInfo.height,
+            gender: userInfo.gender,
+            username: userInfo.username,
+        };
+        activity.metrics.gps.totalDistance = stravaActivity.distance;
+        activity.metrics.gps.totalTime = stravaActivity.elapsed_time *1000;
+        activity.startDate = stravaActivity.start_date;
+        return activity;
+};
 
 export default {
     initNewActivity,
@@ -357,4 +384,5 @@ export default {
     normilizeTelemetryJSON,
     convertStravaTypeToGinkgo,
     fromStravaActivityToGinkgoActivity,
+    fromStravaActivityToGinkgoActivityBase
 };
