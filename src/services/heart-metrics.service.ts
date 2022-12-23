@@ -14,7 +14,9 @@ const calcValues = (blocks: ActivityBlocks): Pick<HeartMetrics, 'hrMax' | 'hrMin
         hrMin: 0,
         avgHr: 0,
     };
-
+    if(blocks.geoPositionBlocks.length === 0){
+        return heartMetrics;
+    }
     heartMetrics.avgHr = blocks.heartBlocks.reduce((a, b, c, d) => a + b.heartRate, 0) / blocks.heartBlocks.length;
     heartMetrics.hrMax = Math.max(...blocks.heartBlocks.map((hb) => hb.heartRate));
     heartMetrics.hrMin = Math.min(...blocks.heartBlocks.map((hb) => hb.heartRate));
