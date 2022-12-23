@@ -38,7 +38,6 @@ const calcBearing = (startLat: number, startLng: number, destLat: number, destLn
     brng = toDegrees(brng);
     return (brng + 360) % 360;
 };
-
 export default {
     calcBearing,
     toDegrees,
