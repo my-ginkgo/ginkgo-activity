@@ -1,5 +1,14 @@
 import { Activity, ActivitySettings, ActivityType, StravaActivity } from '../models';
 import { TelemetryExport } from '../models/telemetryExtractor';
+export declare const fromStravaActivityToGinkgoActivity: (stravaActivity: StravaActivity, userInfo: {
+    activityLevel: number;
+    id: string;
+    username: string;
+    gender: string;
+    weight: number;
+    height: number;
+    birthdate: string;
+}) => Activity | null | undefined;
 declare const _default: {
     initNewActivity: (type: ActivityType, name: string) => Activity;
     calcActivitySettings: (type: ActivityType) => ActivitySettings;
