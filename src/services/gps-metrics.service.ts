@@ -15,7 +15,7 @@ const calcAll = (blocks: ActivityBlocks, settings: ActivitySettings): Partial<Gp
     };
 };
 
-const calcValues = (    blocks: ActivityBlocks): Pick<GpsMetrics, 'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'> => {
+const calcValues = (blocks: ActivityBlocks): Pick<GpsMetrics, 'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'> => {
     const gpsMetrics: Pick<
         GpsMetrics,
         'altitudeMin' | 'altitudeMax' | 'totalDistance' | 'speedMax' | 'speedMin' | 'totalTime' | 'avgSpeed' | 'avgAltitude'
@@ -29,7 +29,7 @@ const calcValues = (    blocks: ActivityBlocks): Pick<GpsMetrics, 'altitudeMin' 
         avgSpeed: 0,
         avgAltitude: 0,
     };
-    if(blocks.geoPositionBlocks.length === 0){
+    if (blocks.geoPositionBlocks.length === 0) {
         return gpsMetrics;
     }
     gpsMetrics.avgAltitude =
@@ -44,6 +44,11 @@ const calcValues = (    blocks: ActivityBlocks): Pick<GpsMetrics, 'altitudeMin' 
         blocks.geoPositionBlocks[blocks.geoPositionBlocks.length - 1].time,
         blocks.geoPositionBlocks[0].time,
     );
+    console.log('CALC TOTAL TIME', blocks.geoPositionBlocks[blocks.geoPositionBlocks.length - 1].time,
+        blocks.geoPositionBlocks[0].time, getMillisecondsBetweenTwoDates(
+        blocks.geoPositionBlocks[blocks.geoPositionBlocks.length - 1].time,
+        blocks.geoPositionBlocks[0].time,
+    ));
     return gpsMetrics;
 };
 

@@ -313,11 +313,10 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
             const startLatLng = new Date(stravaActivity.start_date);
             for (let counter = 0; counter < stravaActivity.streams?.time?.data?.length; counter++) {
                 const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
-                geoBlock.time = startLatLng.setSeconds(stravaActivity.streams?.time?.data[counter] as number + counter);
+                geoBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + counter);
                 geoBlock.cts = counter;
                 if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
                     geoBlock.altitude = stravaActivity.streams?.altitude?.data[counter] as number;
-                    geoBlock.altitudeRange = calculateValueInRange(geoBlock.altitude, activity.settings.geoPosition.altitudeRange);
                 }
                 if (stravaActivity.streams?.latlng?.data && stravaActivity.streams?.latlng?.data?.length > 0) {
                     // @ts-ignore
@@ -329,20 +328,18 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
                 }
                 if (stravaActivity.streams?.velocity_smooth?.data && stravaActivity.streams?.velocity_smooth?.data?.length > 0) {
                     geoBlock.speed = stravaActivity.streams?.velocity_smooth?.data[counter] as number;
-                    geoBlock.speedRange = calculateValueInRange(geoBlock.speed, activity.settings.geoPosition.speedRange);
                 }
                 activity.blocks.geoPositionBlocks.push(JSON.parse(JSON.stringify(geoBlock)));
 
                 if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                     const heartBlock: HeartBlock = INITHEARTBLOCK;
-                    heartBlock.time = startLatLng.setSeconds(stravaActivity.streams?.time?.data[counter] as number + counter);
+                    heartBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + counter);
                     heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[counter] as number;
-                    heartBlock.heartRange = calculateValueInRange(heartBlock.heartRate, activity.settings.heart.heartRange);
                     activity.blocks.heartBlocks.push(JSON.parse(JSON.stringify(heartBlock)));
                 }
             }
             if (activity.blocks.geoPositionBlocks.length > 0) {
-                activity.metrics.gps = GPS.calcValues(activity.blocks) as GpsMetrics;
+                activity.metrics.gps = GPS.calcAll(activity.blocks, activity.settings) as GpsMetrics;
             }
             if (activity.blocks.heartBlocks.length > 0) {
                 activity.metrics.heart = HR.calcValues(activity.blocks) as HeartMetrics;
