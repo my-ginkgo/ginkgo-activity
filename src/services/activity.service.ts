@@ -380,7 +380,7 @@ export const fromStravaActivityToGinkgoActivityBase = (stravaActivity: StravaAct
     activity.metrics.gps.totalDistance = stravaActivity.distance;
     activity.metrics.gps.totalTime = stravaActivity.elapsed_time * 1000;
     activity.startDate = stravaActivity.start_date;
-    activity.stravaId = stravaActivity.id;
+    activity.stravaId = stravaActivity.stravaId.toString();
     return activity;
 };
 
