@@ -313,7 +313,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
             const startLatLng = new Date(stravaActivity.start_date);
             for (let counter = 0; counter < stravaActivity.streams?.time?.data?.length; counter++) {
                 const geoBlock: GeoPositionBlock = INITGEOPOSITIONBLOCK;
-                geoBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + counter);
+                geoBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + 1);
                 geoBlock.cts = counter;
                 if (stravaActivity.streams?.altitude?.data && stravaActivity.streams?.altitude?.data?.length > 0) {
                     geoBlock.altitude = stravaActivity.streams?.altitude?.data[counter] as number;
@@ -333,7 +333,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
 
                 if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                     const heartBlock: HeartBlock = INITHEARTBLOCK;
-                    heartBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + counter);
+                    heartBlock.time = startLatLng.setSeconds(startLatLng.getSeconds() + 1);
                     heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[counter] as number;
                     activity.blocks.heartBlocks.push(JSON.parse(JSON.stringify(heartBlock)));
                 }
