@@ -78,15 +78,11 @@ const calcRanges = (blocks: ActivityBlocks, settings: ActivitySettings): Partial
     const altitudeRanges: KeyValue<string, number>[] = [];
     const altitudeDistanceRanges: KeyValue<string, number>[] = [];
     for (let i = 1; blocks.geoPositionBlocks.length > i; i++) {
-        const previousPoint = [
+        const diffDistance = MAP.calcCrow(
             blocks.geoPositionBlocks[i - 1].lat,
             blocks.geoPositionBlocks[i - 1].long,
-        ];
-        const currentPoint = [
             blocks.geoPositionBlocks[i].lat,
-            blocks.geoPositionBlocks[i].long,
-        ];
-        const diffDistance = MAP.calcCrow(previousPoint[0], previousPoint[1], currentPoint[0], currentPoint[1]);
+            blocks.geoPositionBlocks[i].long);
 
         gpsMetrics.totalDistance += diffDistance;
         if (blocks.geoPositionBlocks[i].altitude < blocks.geoPositionBlocks[i - 1].altitude) {

@@ -175,6 +175,7 @@ export declare interface HeartBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 export declare interface GyroscopeBlock {
     x: number;
@@ -183,6 +184,7 @@ export declare interface GyroscopeBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 export declare interface AccellerationBlock {
     x: number;
@@ -191,6 +193,7 @@ export declare interface AccellerationBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 export declare interface GpsMetrics {
     avgAltitude: number;

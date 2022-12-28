@@ -180,32 +180,34 @@ const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: string }, 
         // console.warn('NORMALIZED BLOCK', normalizedBlock);
         newActivity.blocks.geoPositionBlocks.push(normalizedBlock);
     });
-    content.data.streams.ACCL.samples.forEach(gpsData => {
+    content.data.streams.ACCL.samples.forEach(accData => {
         const normalizedBlock: AccellerationBlock = {
-            time: new Date(gpsData.date).valueOf(),
-            z: gpsData.value[0],
-            x: gpsData.value[1],
-            y: gpsData.value[2],
+            time: new Date(accData.date).valueOf(),
+            y: accData.value[0], // up/down
+            x: accData.value[1], // right/left
+            z: accData.value[2], // forward/back
             exclude: false,
             device: {
                 deviceId: devideID,
                 type: DeviceTypeEnum.gopro,
             },
+            unitmeasure: 'm/s2'
         };
         // console.warn('NORMALIZED BLOCK', normalizedBlock);
         newActivity.blocks.accelerationBlocks.push(normalizedBlock);
     });
-    content.data.streams.GYRO.samples.forEach(gpsData => {
+    content.data.streams.GYRO.samples.forEach(gyroData => {
         const normalizedBlock: GyroscopeBlock = {
-            time: new Date(gpsData.date).valueOf(),
-            z: gpsData.value[0],
-            x: gpsData.value[1],
-            y: gpsData.value[2],
+            time: new Date(gyroData.date).valueOf(),
+            z: gyroData.value[0],
+            x: gyroData.value[1],
+            y: gyroData.value[2],
             exclude: false,
             device: {
                 deviceId: devideID,
                 type: DeviceTypeEnum.gopro,
             },
+            unitmeasure: 'rad/s'
         };
         // console.warn('NORMALIZED BLOCK', normalizedBlock);
         newActivity.blocks.gyroscopeBlocks.push(normalizedBlock);
@@ -332,7 +334,7 @@ export const fromStravaActivityToGinkgoActivity = (stravaActivity: StravaActivit
 
                 if (stravaActivity.streams?.heartrate?.data && stravaActivity.streams?.heartrate?.data?.length > 0) {
                     const heartBlock: HeartBlock = INITHEARTBLOCK;
-                    heartBlock.time =  new Date(stravaActivity.start_date).valueOf() + (counter * 1000);
+                    heartBlock.time = new Date(stravaActivity.start_date).valueOf() + (counter * 1000);
                     heartBlock.heartRate = stravaActivity.streams?.heartrate?.data[counter] as number;
                     activity.blocks.heartBlocks.push(JSON.parse(JSON.stringify(heartBlock)));
                 }

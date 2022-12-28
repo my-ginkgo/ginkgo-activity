@@ -195,6 +195,7 @@ export declare interface HeartBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 
 export declare interface GyroscopeBlock {
@@ -204,6 +205,7 @@ export declare interface GyroscopeBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 
 export declare interface AccellerationBlock {
@@ -213,6 +215,7 @@ export declare interface AccellerationBlock {
     time: number;
     device: Pick<IDevice, 'deviceId' | 'type'> | null;
     exclude: boolean;
+    unitmeasure: string;
 }
 
 export declare interface GpsMetrics {
@@ -343,7 +346,8 @@ export const INITHEARTBLOCK: HeartBlock = {
     exclude: false,
     heartRange: '',
     heartRate: 0,
-    time: 0
+    time: 0,
+    unitmeasure: 'bpm'
 };
 
 export const DEFAULT_MTB_GEO_SETTINGS: ActivityGeoPositionSettings = {
