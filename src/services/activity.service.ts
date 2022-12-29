@@ -155,63 +155,72 @@ const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: string }, 
     }];
     // BLOCKS
     console.warn('STREAMS FIND:', content.data.streams);
-    content.data.streams.GPS5.samples.forEach(gpsData => {
-        const normalizedBlock: GeoPositionBlock = {
-            time: new Date(gpsData.date).valueOf(),
-            lat: gpsData.value[0],
-            long: gpsData.value[1],
-            altitude: gpsData.value[2],
-            speed: gpsData.value[3],
-            speed3d: gpsData.value[4],
-            cts: gpsData.cts,
-            accuracy: gpsData.sticky?.precision,
-            accuracyRange: calculateValueInRange(gpsData.sticky?.precision, newActivity.settings.geoPosition.accuracyRange),
-            altitudeAccuracyRange: '',
-            altitudeAccuracy: null,
-            speedRange: calculateValueInRange(gpsData.value[3], newActivity.settings.geoPosition.speedRange),
-            altitudeRange: calculateValueInRange(gpsData.value[2], newActivity.settings.geoPosition.altitudeRange),
-            heading: 0,
-            exclude: false,
-            device: {
-                deviceId: devideID,
-                type: DeviceTypeEnum.gopro,
-            },
-        };
-        // console.warn('NORMALIZED BLOCK', normalizedBlock);
-        newActivity.blocks.geoPositionBlocks.push(normalizedBlock);
-    });
-    content.data.streams.ACCL.samples.forEach(accData => {
-        const normalizedBlock: AccellerationBlock = {
-            time: new Date(accData.date).valueOf(),
-            y: accData.value[0], // up/down
-            x: accData.value[1], // right/left
-            z: accData.value[2], // forward/back
-            exclude: false,
-            device: {
-                deviceId: devideID,
-                type: DeviceTypeEnum.gopro,
-            },
-            unitmeasure: 'm/s2'
-        };
-        // console.warn('NORMALIZED BLOCK', normalizedBlock);
-        newActivity.blocks.accelerationBlocks.push(normalizedBlock);
-    });
-    content.data.streams.GYRO.samples.forEach(gyroData => {
-        const normalizedBlock: GyroscopeBlock = {
-            time: new Date(gyroData.date).valueOf(),
-            z: gyroData.value[0],
-            x: gyroData.value[1],
-            y: gyroData.value[2],
-            exclude: false,
-            device: {
-                deviceId: devideID,
-                type: DeviceTypeEnum.gopro,
-            },
-            unitmeasure: 'rad/s'
-        };
-        // console.warn('NORMALIZED BLOCK', normalizedBlock);
-        newActivity.blocks.gyroscopeBlocks.push(normalizedBlock);
-    });
+    if(content.data.streams.GPS5?.samples?.length > 0) {
+        content.data.streams.GPS5.samples.forEach(gpsData => {
+            const normalizedBlock: GeoPositionBlock = {
+                time: new Date(gpsData.date).valueOf(),
+                lat: gpsData.value[0],
+                long: gpsData.value[1],
+                altitude: gpsData.value[2],
+                speed: gpsData.value[3],
+                speed3d: gpsData.value[4],
+                cts: gpsData.cts,
+                accuracy: gpsData.sticky?.precision,
+                accuracyRange: calculateValueInRange(gpsData.sticky?.precision, newActivity.settings.geoPosition.accuracyRange),
+                altitudeAccuracyRange: '',
+                altitudeAccuracy: null,
+                speedRange: calculateValueInRange(gpsData.value[3], newActivity.settings.geoPosition.speedRange),
+                altitudeRange: calculateValueInRange(gpsData.value[2], newActivity.settings.geoPosition.altitudeRange),
+                heading: 0,
+                exclude: false,
+                device: {
+                    deviceId: devideID,
+                    type: DeviceTypeEnum.gopro,
+                },
+            };
+            // console.warn('NORMALIZED BLOCK', normalizedBlock);
+            newActivity.blocks.geoPositionBlocks.push(normalizedBlock);
+        });
+    }
+
+    if(content.data.streams.ACCL?.samples?.length > 0) {
+        content.data.streams.ACCL.samples.forEach(accData => {
+            const normalizedBlock: AccellerationBlock = {
+                time: new Date(accData.date).valueOf(),
+                y: accData.value[0], // up/down
+                x: accData.value[1], // right/left
+                z: accData.value[2], // forward/back
+                exclude: false,
+                device: {
+                    deviceId: devideID,
+                    type: DeviceTypeEnum.gopro,
+                },
+                unitmeasure: 'm/s2'
+            };
+            // console.warn('NORMALIZED BLOCK', normalizedBlock);
+            newActivity.blocks.accelerationBlocks.push(normalizedBlock);
+        });
+    }
+
+    if(content.data.streams.GYRO?.samples?.length > 0) {
+        content.data.streams.GYRO.samples.forEach(gyroData => {
+            const normalizedBlock: GyroscopeBlock = {
+                time: new Date(gyroData.date).valueOf(),
+                z: gyroData.value[0],
+                x: gyroData.value[1],
+                y: gyroData.value[2],
+                exclude: false,
+                device: {
+                    deviceId: devideID,
+                    type: DeviceTypeEnum.gopro,
+                },
+                unitmeasure: 'rad/s'
+            };
+            // console.warn('NORMALIZED BLOCK', normalizedBlock);
+            newActivity.blocks.gyroscopeBlocks.push(normalizedBlock);
+        });
+    }
+
     return newActivity;
 };
 
