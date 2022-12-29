@@ -1,5 +1,10 @@
 import { Media } from './media.model';
 import { KeyValue } from './ng-keyvalue.model';
+export declare enum PrivacyTypeEnum {
+    public = "public",
+    private = "private",
+    limited = "limited"
+}
 export declare interface IDevice {
     deviceId: string;
     name: string;
@@ -131,6 +136,7 @@ export declare interface Activity {
     reactions: Reaction[];
     startDate: Date;
     stravaId?: string;
+    privacyType: PrivacyTypeEnum;
 }
 export declare enum ActivityProvider {
     ginkgo = "Ginkgo",

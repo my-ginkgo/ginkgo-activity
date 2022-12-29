@@ -24,6 +24,7 @@ import {
     INITGEOPOSITIONBLOCK,
     INITHEARTBLOCK,
     MetabolicMetrics,
+    PrivacyTypeEnum,
     StravaActivity,
 } from '../models';
 import {TelemetryExport} from '../models/telemetryExtractor';
@@ -96,6 +97,7 @@ const initNewActivity = (type: ActivityType, name: string): Activity => {
         updatedAt: null,
         provider: ActivityProvider.ginkgo,
         reactions: [],
+        privacyType: PrivacyTypeEnum.public
     };
 };
 
