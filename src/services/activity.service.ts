@@ -217,7 +217,7 @@ const convertDataFromJsonTE = (content: { data: TelemetryExport; fps: string }, 
 
 const convertDataFromGPX = (content: string, newActivity: Activity): Activity => {
     const GPX = require('gpx-parser-builder');
-    const parsedGpx: any = GPX.parse(content);
+    const parsedGpx: any = GPX.default.parse(content);
     console.log('GPX', parsedGpx.trk);
 
     const devideID = new Date().valueOf().toString();
