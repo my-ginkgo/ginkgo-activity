@@ -71,7 +71,7 @@ export interface SplitsStandard {
     pace_zone: number;
 }
 
-export interface Lap {
+export interface StravaLap {
     id: number;
     resource_state: number;
     name: string;
@@ -243,7 +243,7 @@ export interface StravaActivity {
     segment_efforts?: SegmentEffort[];
     splits_metric?: SplitsMetric[];
     splits_standard?: SplitsStandard[];
-    laps?: Lap[];
+    laps?: StravaLap[];
     photos?: StravaPhotos;
     stats_visibility?: StatsVisibility[];
     hide_from_home?: boolean;

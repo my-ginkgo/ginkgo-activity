@@ -135,6 +135,7 @@ export declare interface Activity {
     istants: ActivityIstants;
     devices: IDevice[];
     drills?: Drill[];
+    laps?: Lap[];
     media?: Media[];
     status: ActivityStatus;
     provider: ActivityProvider;
@@ -152,6 +153,17 @@ export enum ActivityProvider {
 }
 
 export declare interface Drill {
+    name: string;
+    id: string;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    metrics: ActivityMetrics;
+    settings: ActivitySettings;
+    start: number;
+    end: number;
+}
+
+export declare interface Lap {
     name: string;
     id: string;
     createdAt: Date | null;
