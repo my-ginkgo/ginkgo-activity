@@ -392,28 +392,14 @@ export const fromStravaActivityToGinkgoActivity = (
 
       if (!!stravaActivity.segment_efforts && stravaActivity.segment_efforts?.length > 0) {
         stravaActivity.segment_efforts?.forEach((segmentEffort, index) => {
-          let startTime: number = -1;
-          let endTime: number = -1;
+          const startTime: number = segmentEffort.start_date.valueOf();
+          const endTime: number = startTime + (segmentEffort.elapsed_time * 1000);
           const drillGeoBlocks: GeoPositionBlock[] = [];
           const drillHeartBlocks: HeartBlock[] = [];
           const drillGyroBlocks: GyroscopeBlock[] = [];
           const drillAccelBlocks: AccellerationBlock[] = [];
 
           for (const geoBlock of activity.blocks.geoPositionBlocks) {
-            if (
-              geoBlock.lat === segmentEffort.segment.start_latlng[0] &&
-              geoBlock.long === segmentEffort.segment.start_latlng[1]
-            ) {
-              startTime = geoBlock.time;
-            }
-
-            if (
-              geoBlock.lat === segmentEffort.segment.end_latlng[0] &&
-              geoBlock.long === segmentEffort.segment.end_latlng[1]
-            ) {
-              endTime = geoBlock.time;
-            }
-
             if (geoBlock.time >= startTime && geoBlock.time <= endTime) {
               drillGeoBlocks.push(geoBlock);
 
